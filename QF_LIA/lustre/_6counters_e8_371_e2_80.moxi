@@ -1,0 +1,30 @@
+(set-logic QF_LIA)
+(define-system bool6 
+   :input ((x Bool)) 
+   :output ((out Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false) (= flby3 false)) 
+   :trans (and (= flby' (not a)) (= flby2' (or (and (and (not c) (not b)) a) (and b (not a)))) (= flby3' (and (and c (not a)) (and b a)))) 
+   :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
+(define-system int6I 
+   :input ((x Bool)) 
+   :output ((out Bool) (time Int) (ite Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (=> (= time 5) (= ite' 1)) (=> (not (= time 5)) (= ite' (+ (- time 1) 1)))) (= flby' ite')) 
+   :inv (and (= out (= time 5)) (= time flby)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (a Bool) (b Bool) (param_x Bool)) 
+   :local ((call_int6I.x Bool) (call_int6I.out Bool) (call_int6I.time Int) (call_int6I.ite Int) (call_int6I.flby Int) (call_bool6.x Bool) (call_bool6.out Bool) (call_bool6.a Bool) (call_bool6.b Bool) (call_bool6.c Bool) (call_bool6.flby Bool) (call_bool6.flby2 Bool) (call_bool6.flby3 Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (= a b)) (= a call_int6I.out) (= b call_bool6.out) (= call_int6I.x param_x) (= call_bool6.x param_x)) 
+   :subsys (call_int6I (int6I call_int6I.x call_int6I.out call_int6I.time call_int6I.ite call_int6I.flby))
+   :subsys (call_bool6 (bool6 call_bool6.x call_bool6.out call_bool6.a call_bool6.b call_bool6.c call_bool6.flby call_bool6.flby2 call_bool6.flby3)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (a Bool) (b Bool) (param_x Bool)) 
+   :local ((call_int6I.x Bool) (call_int6I.out Bool) (call_int6I.time Int) (call_int6I.ite Int) (call_int6I.flby Int) (call_bool6.x Bool) (call_bool6.out Bool) (call_bool6.a Bool) (call_bool6.b Bool) (call_bool6.c Bool) (call_bool6.flby Bool) (call_bool6.flby2 Bool) (call_bool6.flby3 Bool)) 
+   :reachable (rch_1 (not _OK_))
+   :query (qry_rch_1 (rch_1)))

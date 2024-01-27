@@ -1,0 +1,14 @@
+(set-logic QF_LIA)
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (time Int) (ite Int) (flby Int) (param__init_ Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (=> (= time 5) (= ite' 0)) (=> (not (= time 5)) (= ite' (+ time 1)))) (= flby' ite')) 
+   :inv (and (= _OK_ (> time 0)) (= time flby)) )
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (time Int) (ite Int) (flby Int) (param__init_ Int)) 
+   :local () 
+   :reachable (rch_1 (not _OK_))
+   :query (qry_rch_1 (rch_1)))

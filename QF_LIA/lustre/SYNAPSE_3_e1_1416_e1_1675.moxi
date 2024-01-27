@@ -1,0 +1,46 @@
+(set-logic QF_LIA)
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system excludes3 
+   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
+(define-system synapse 
+   :input ((e_s1 Bool) (e_s2 Bool) (e_s3 Bool) (init_invalid_s Int)) 
+   :output ((invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (garde_s1 Bool) (garde_s2 Bool) (garde_s3 Bool) (flby Int) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (flby2 Int) (ite7 Int) (ite8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby3 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (ite17 Int) (ite18 Int) (flby4 Int)) 
+   :local () 
+   :init (and (and (and (and (and (and (and (and (=> e_s3 (= ite4 ite3)) (=> garde_s2 (= ite8 0))) (=> garde_s3 (= ite9 0))) (=> e_s3 (= ite10 ite9))) (=> garde_s1 (= ite13 0))) (=> garde_s2 (= ite14 1))) (=> garde_s3 (= ite15 1))) (=> e_s3 (= ite16 ite15))) (= flby init_invalid_s) (= flby2 mem_init_s) (= flby3 0) (= flby4 0)) 
+   :trans (and (and (and (and (and (and (and (and (and (and (and (and (and (=> garde_s1' (= ite' (- (+ (+ invalid_s 1) dirty_s) 1))) (=> (not garde_s1') (= ite' invalid_s))) (and (=> garde_s2' (= ite2' (- (+ (+ (+ invalid_s 1) dirty_s) valid_s) 1))) (=> (not garde_s2') (= ite2' invalid_s)))) (and (=> garde_s3' (= ite3' (- (+ (+ invalid_s dirty_s) valid_s) 1))) (=> (not garde_s3') (= ite3' invalid_s)))) (and (=> e_s3' (= ite4' ite3')) (=> (not e_s3') (= ite4' invalid_s)))) (and (=> garde_s1' (= ite7' (+ valid_s 1))) (=> (not garde_s1') (= ite7' valid_s)))) (and (=> garde_s2' (= ite8' 0)) (=> (not garde_s2') (= ite8' valid_s)))) (and (=> garde_s3' (= ite9' 0)) (=> (not garde_s3') (= ite9' valid_s)))) (and (=> e_s3' (= ite10' ite9')) (=> (not e_s3') (= ite10' valid_s)))) (and (=> garde_s1' (= ite13' 0)) (=> (not garde_s1') (= ite13' dirty_s)))) (and (=> garde_s2' (= ite14' 1)) (=> (not garde_s2') (= ite14' dirty_s)))) (and (=> garde_s3' (= ite15' 1)) (=> (not garde_s3') (= ite15' dirty_s)))) (and (=> e_s3' (= ite16' ite15')) (=> (not e_s3') (= ite16' dirty_s)))) (= garde_s1' (>= invalid_s 1)) (= garde_s2' (>= valid_s 1)) (= garde_s3' (>= invalid_s 1)) (= flby' mem_init_s) (= flby2' ite6') (= flby3' ite12') (= flby4' ite18')) 
+   :inv (and (and (and (and (and (and (and (=> e_s2 (= ite5 ite2)) (=> (not e_s2) (= ite5 ite4))) (and (=> e_s1 (= ite6 ite)) (=> (not e_s1) (= ite6 ite5)))) (and (=> e_s2 (= ite11 ite8)) (=> (not e_s2) (= ite11 ite10)))) (and (=> e_s1 (= ite12 ite7)) (=> (not e_s1) (= ite12 ite11)))) (and (=> e_s2 (= ite17 ite14)) (=> (not e_s2) (= ite17 ite16)))) (and (=> e_s1 (= ite18 ite13)) (=> (not e_s1) (= ite18 ite17)))) (= invalid_s flby2) (= valid_s flby3) (= dirty_s flby4) (= mem_init_s flby)) )
+(define-system main 
+   :input () 
+   :output ((param_init_invalid_s Int) (_OK_ Bool) (invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (env Bool) (param_e_s1 Bool) (param_e_s2 Bool) (param_e_s3 Bool)) 
+   :local ((call_synapse.e_s1 Bool) (call_synapse.e_s2 Bool) (call_synapse.e_s3 Bool) (call_synapse.init_invalid_s Int) (call_synapse.invalid_s Int) (call_synapse.valid_s Int) (call_synapse.dirty_s Int) (call_synapse.mem_init_s Int) (call_synapse.garde_s1 Bool) (call_synapse.garde_s2 Bool) (call_synapse.garde_s3 Bool) (call_synapse.flby Int) (call_synapse.ite Int) (call_synapse.ite2 Int) (call_synapse.ite3 Int) (call_synapse.ite4 Int) (call_synapse.ite5 Int) (call_synapse.ite6 Int) (call_synapse.flby2 Int) (call_synapse.ite7 Int) (call_synapse.ite8 Int) (call_synapse.ite9 Int) (call_synapse.ite10 Int) (call_synapse.ite11 Int) (call_synapse.ite12 Int) (call_synapse.flby3 Int) (call_synapse.ite13 Int) (call_synapse.ite14 Int) (call_synapse.ite15 Int) (call_synapse.ite16 Int) (call_synapse.ite17 Int) (call_synapse.ite18 Int) (call_synapse.flby4 Int) (call_excludes3._X1_ Bool) (call_excludes3._X2_ Bool) (call_excludes3._X3_ Bool) (call_excludes3.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_First._X_ Int) (call_First.First Int) (call_First.flby Int)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (=> env (= (+ (+ invalid_s valid_s) dirty_s) call_First.First))) (= invalid_s call_synapse.invalid_s) (= valid_s call_synapse.valid_s) (= dirty_s call_synapse.dirty_s) (= mem_init_s call_synapse.mem_init_s) (= env call_Sofar.Sofar) (= call_synapse.e_s1 param_e_s1) (= call_synapse.e_s2 param_e_s2) (= call_synapse.e_s3 param_e_s3) (= call_synapse.init_invalid_s param_init_invalid_s) (= call_excludes3._X1_ param_e_s1) (= call_excludes3._X2_ param_e_s2) (= call_excludes3._X3_ param_e_s3) (= call_Sofar._X_ (and call_excludes3.excludes (>= param_init_invalid_s 0))) (= call_First._X_ param_init_invalid_s)) 
+   :subsys (call_synapse (synapse call_synapse.e_s1 call_synapse.e_s2 call_synapse.e_s3 call_synapse.init_invalid_s call_synapse.invalid_s call_synapse.valid_s call_synapse.dirty_s call_synapse.mem_init_s call_synapse.garde_s1 call_synapse.garde_s2 call_synapse.garde_s3 call_synapse.flby call_synapse.ite call_synapse.ite2 call_synapse.ite3 call_synapse.ite4 call_synapse.ite5 call_synapse.ite6 call_synapse.flby2 call_synapse.ite7 call_synapse.ite8 call_synapse.ite9 call_synapse.ite10 call_synapse.ite11 call_synapse.ite12 call_synapse.flby3 call_synapse.ite13 call_synapse.ite14 call_synapse.ite15 call_synapse.ite16 call_synapse.ite17 call_synapse.ite18 call_synapse.flby4))
+   :subsys (call_excludes3 (excludes3 call_excludes3._X1_ call_excludes3._X2_ call_excludes3._X3_ call_excludes3.excludes))
+   :subsys (call_Sofar (Sofar call_Sofar._X_ call_Sofar.Sofar call_Sofar.flby))
+   :subsys (call_First (First call_First._X_ call_First.First call_First.flby)))
+(check-system main 
+   :input () 
+   :output ((param_init_invalid_s Int) (_OK_ Bool) (invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (env Bool) (param_e_s1 Bool) (param_e_s2 Bool) (param_e_s3 Bool)) 
+   :local ((call_synapse.e_s1 Bool) (call_synapse.e_s2 Bool) (call_synapse.e_s3 Bool) (call_synapse.init_invalid_s Int) (call_synapse.invalid_s Int) (call_synapse.valid_s Int) (call_synapse.dirty_s Int) (call_synapse.mem_init_s Int) (call_synapse.garde_s1 Bool) (call_synapse.garde_s2 Bool) (call_synapse.garde_s3 Bool) (call_synapse.flby Int) (call_synapse.ite Int) (call_synapse.ite2 Int) (call_synapse.ite3 Int) (call_synapse.ite4 Int) (call_synapse.ite5 Int) (call_synapse.ite6 Int) (call_synapse.flby2 Int) (call_synapse.ite7 Int) (call_synapse.ite8 Int) (call_synapse.ite9 Int) (call_synapse.ite10 Int) (call_synapse.ite11 Int) (call_synapse.ite12 Int) (call_synapse.flby3 Int) (call_synapse.ite13 Int) (call_synapse.ite14 Int) (call_synapse.ite15 Int) (call_synapse.ite16 Int) (call_synapse.ite17 Int) (call_synapse.ite18 Int) (call_synapse.flby4 Int) (call_excludes3._X1_ Bool) (call_excludes3._X2_ Bool) (call_excludes3._X3_ Bool) (call_excludes3.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_First._X_ Int) (call_First.First Int) (call_First.flby Int)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

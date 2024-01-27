@@ -1,0 +1,80 @@
+(set-logic QF_LIA)
+(define-system switch 
+   :input ((_init_ Bool) (on Bool) (off Bool)) 
+   :output ((value Bool) (flby Bool) (ite Bool) (ite2 Bool)) 
+   :local () 
+   :init (= flby _init_) 
+   :trans (= flby' value) 
+   :inv (and (and (and (=> off (= ite false)) (=> (not off) (= ite flby))) (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite)))) (= value ite2)) )
+(define-system controller 
+   :input ((request_door Bool) (warning_start Bool) (in_station Bool) (door_is_open Bool)) 
+   :output ((open_door Bool) (close_door Bool) (door_ok Bool) (req_pending Bool)) 
+   :local ((call_switch._init_ Bool) (call_switch.on Bool) (call_switch.off Bool) (call_switch.value Bool) (call_switch.flby Bool) (call_switch.ite Bool) (call_switch.ite2 Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= open_door (and req_pending in_station)) (= close_door (and warning_start door_is_open)) (= door_ok (and (not door_is_open) warning_start)) (= req_pending call_switch.value) (= call_switch._init_ false) (= call_switch.on (and request_door (not warning_start))) (= call_switch.off door_is_open)) 
+   :subsys (call_switch (switch call_switch._init_ call_switch.on call_switch.off call_switch.value call_switch.flby call_switch.ite call_switch.ite2)))
+(define-system edge 
+   :input ((_X_ Bool)) 
+   :output ((edge Bool) (flby Bool)) 
+   :local () 
+   :init (= flby false) 
+   :trans (= flby' (and _X_' (not _X_))) 
+   :inv (= edge flby) )
+(define-system jafter 
+   :input ((_X_ Bool)) 
+   :output ((after Bool) (flby Bool)) 
+   :local () 
+   :init (= flby false) 
+   :trans (= flby' _X_) 
+   :inv (= after flby) )
+(define-system environment 
+   :input ((door_is_open Bool) (open_door Bool) (close_door Bool) (in_station Bool) (door_ok Bool) (warning_start Bool)) 
+   :output ((env_always_ok Bool) (env_ok Bool) (door_doesnt_close_if_not_asked Bool) (door_doesnt_open_if_not_asked Bool) (tramway_doesnt_start_if_not_door_ok Bool) (door_initially_closed Bool) (initially_not_in_station Bool) (warning_start_and_in_station_go_down_simultaneously Bool) (warning_start_only_in_station Bool) (warning_start_cant_become_true_when_door_is_opening Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
+   :local ((call_edge._X_ Bool) (call_edge.edge Bool) (call_edge.flby Bool) (call_edge2._X_ Bool) (call_edge2.edge Bool) (call_edge2.flby Bool) (call_edge3._X_ Bool) (call_edge3.edge Bool) (call_edge3.flby Bool) (call_jafter._X_ Bool) (call_jafter.after Bool) (call_jafter.flby Bool) (call_edge4._X_ Bool) (call_edge4.edge Bool) (call_edge4.flby Bool) (call_edge5._X_ Bool) (call_edge5.edge Bool) (call_edge5.flby Bool) (call_edge6._X_ Bool) (call_edge6.edge Bool) (call_edge6.flby Bool)) 
+   :init (and (= flby env_ok) (= flby2 (not door_is_open)) (= flby3 (not in_station))) 
+   :trans (and (= flby' (and env_ok' env_always_ok)) (= flby2' true) (= flby3' true)) 
+   :inv (and (= env_always_ok flby) (= env_ok (and (and (and (and (and (and (and door_doesnt_open_if_not_asked door_doesnt_close_if_not_asked) tramway_doesnt_start_if_not_door_ok) door_initially_closed) initially_not_in_station) warning_start_and_in_station_go_down_simultaneously) warning_start_only_in_station) warning_start_cant_become_true_when_door_is_opening)) (= door_doesnt_close_if_not_asked (=> call_edge.edge open_door)) (= door_doesnt_open_if_not_asked (=> call_edge2.edge close_door)) (= tramway_doesnt_start_if_not_door_ok (=> call_edge3.edge call_jafter.after)) (= door_initially_closed flby2) (= initially_not_in_station flby3) (= warning_start_and_in_station_go_down_simultaneously (= call_edge4.edge call_edge5.edge)) (= warning_start_only_in_station (=> warning_start in_station)) (= warning_start_cant_become_true_when_door_is_opening (=> call_edge6.edge (not open_door))) (= call_edge._X_ door_is_open) (= call_edge2._X_ (not door_is_open)) (= call_edge3._X_ (not in_station)) (= call_jafter._X_ door_ok) (= call_edge4._X_ (not in_station)) (= call_edge5._X_ (not warning_start)) (= call_edge6._X_ warning_start)) 
+   :subsys (call_edge (edge call_edge._X_ call_edge.edge call_edge.flby))
+   :subsys (call_edge2 (edge call_edge2._X_ call_edge2.edge call_edge2.flby))
+   :subsys (call_edge3 (edge call_edge3._X_ call_edge3.edge call_edge3.flby))
+   :subsys (call_jafter (jafter call_jafter._X_ call_jafter.after call_jafter.flby))
+   :subsys (call_edge4 (edge call_edge4._X_ call_edge4.edge call_edge4.flby))
+   :subsys (call_edge5 (edge call_edge5._X_ call_edge5.edge call_edge5.flby))
+   :subsys (call_edge6 (edge call_edge6._X_ call_edge6.edge call_edge6.flby)))
+(define-system once_from_to 
+   :input ((_A_ Bool) (_B_ Bool) (_X_ Bool)) 
+   :output ((_OK_ Bool) (between_A_and_X Bool)) 
+   :local ((call_jafter._X_ Bool) (call_jafter.after Bool) (call_jafter.flby Bool) (call_switch._init_ Bool) (call_switch.on Bool) (call_switch.off Bool) (call_switch.value Bool) (call_switch.flby Bool) (call_switch.ite Bool) (call_switch.ite2 Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (not (and between_A_and_X _B_))) (= between_A_and_X call_switch.value) (= call_jafter._X_ _X_) (= call_switch._init_ false) (= call_switch.on _A_) (= call_switch.off call_jafter.after)) 
+   :subsys (call_jafter (jafter call_jafter._X_ call_jafter.after call_jafter.flby))
+   :subsys (call_switch (switch call_switch._init_ call_switch.on call_switch.off call_switch.value call_switch.flby call_switch.ite call_switch.ite2)))
+(define-system properties 
+   :input ((door_is_open Bool) (in_station Bool) (request_door Bool) (warning_start Bool)) 
+   :output ((_OK_ Bool) (door_doesnt_open_out_of_station Bool) (door_opens_before_leaving_station Bool)) 
+   :local ((call_jafter._X_ Bool) (call_jafter.after Bool) (call_jafter.flby Bool) (call_edge._X_ Bool) (call_edge.edge Bool) (call_edge.flby Bool) (call_jafter2._X_ Bool) (call_jafter2.after Bool) (call_jafter2.flby Bool) (call_once_from_to._A_ Bool) (call_once_from_to._B_ Bool) (call_once_from_to._X_ Bool) (call_once_from_to._OK_ Bool) (call_once_from_to.between_A_and_X Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (and door_doesnt_open_out_of_station door_opens_before_leaving_station)) (= door_doesnt_open_out_of_station (=> door_is_open in_station)) (= door_opens_before_leaving_station call_once_from_to._OK_) (= call_jafter._X_ (and request_door (not warning_start))) (= call_edge._X_ (not in_station)) (= call_jafter2._X_ door_is_open) (= call_once_from_to._A_ call_jafter.after) (= call_once_from_to._B_ call_edge.edge) (= call_once_from_to._X_ call_jafter2.after)) 
+   :subsys (call_jafter (jafter call_jafter._X_ call_jafter.after call_jafter.flby))
+   :subsys (call_edge (edge call_edge._X_ call_edge.edge call_edge.flby))
+   :subsys (call_jafter2 (jafter call_jafter2._X_ call_jafter2.after call_jafter2.flby))
+   :subsys (call_once_from_to (once_from_to call_once_from_to._A_ call_once_from_to._B_ call_once_from_to._X_ call_once_from_to._OK_ call_once_from_to.between_A_and_X)))
+(define-system main 
+   :input () 
+   :output ((param_request_door Bool) (param_warning_start Bool) (param_in_station Bool) (param_door_is_open Bool) (_OK_ Bool) (env_always_ok Bool) (prop_ok Bool) (open_door Bool) (close_door Bool) (door_ok Bool)) 
+   :local ((call_properties.door_is_open Bool) (call_properties.in_station Bool) (call_properties.request_door Bool) (call_properties.warning_start Bool) (call_properties._OK_ Bool) (call_properties.door_doesnt_open_out_of_station Bool) (call_properties.door_opens_before_leaving_station Bool) (call_environment.door_is_open Bool) (call_environment.open_door Bool) (call_environment.close_door Bool) (call_environment.in_station Bool) (call_environment.door_ok Bool) (call_environment.warning_start Bool) (call_environment.env_always_ok Bool) (call_environment.env_ok Bool) (call_environment.door_doesnt_close_if_not_asked Bool) (call_environment.door_doesnt_open_if_not_asked Bool) (call_environment.tramway_doesnt_start_if_not_door_ok Bool) (call_environment.door_initially_closed Bool) (call_environment.initially_not_in_station Bool) (call_environment.warning_start_and_in_station_go_down_simultaneously Bool) (call_environment.warning_start_only_in_station Bool) (call_environment.warning_start_cant_become_true_when_door_is_opening Bool) (call_environment.flby Bool) (call_environment.flby2 Bool) (call_environment.flby3 Bool) (call_controller.request_door Bool) (call_controller.warning_start Bool) (call_controller.in_station Bool) (call_controller.door_is_open Bool) (call_controller.open_door Bool) (call_controller.close_door Bool) (call_controller.door_ok Bool) (call_controller.req_pending Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (=> env_always_ok prop_ok)) (= env_always_ok call_environment.env_always_ok) (= prop_ok call_properties._OK_) (= open_door call_controller.open_door) (= close_door call_controller.close_door) (= door_ok call_controller.door_ok) (= call_properties.door_is_open param_door_is_open) (= call_properties.in_station param_in_station) (= call_properties.request_door param_request_door) (= call_properties.warning_start param_warning_start) (= call_environment.door_is_open param_door_is_open) (= call_environment.open_door open_door) (= call_environment.close_door close_door) (= call_environment.in_station param_in_station) (= call_environment.door_ok door_ok) (= call_environment.warning_start param_warning_start) (= call_controller.request_door param_request_door) (= call_controller.warning_start param_warning_start) (= call_controller.in_station param_in_station) (= call_controller.door_is_open param_door_is_open)) 
+   :subsys (call_properties (properties call_properties.door_is_open call_properties.in_station call_properties.request_door call_properties.warning_start call_properties._OK_ call_properties.door_doesnt_open_out_of_station call_properties.door_opens_before_leaving_station))
+   :subsys (call_environment (environment call_environment.door_is_open call_environment.open_door call_environment.close_door call_environment.in_station call_environment.door_ok call_environment.warning_start call_environment.env_always_ok call_environment.env_ok call_environment.door_doesnt_close_if_not_asked call_environment.door_doesnt_open_if_not_asked call_environment.tramway_doesnt_start_if_not_door_ok call_environment.door_initially_closed call_environment.initially_not_in_station call_environment.warning_start_and_in_station_go_down_simultaneously call_environment.warning_start_only_in_station call_environment.warning_start_cant_become_true_when_door_is_opening call_environment.flby call_environment.flby2 call_environment.flby3))
+   :subsys (call_controller (controller call_controller.request_door call_controller.warning_start call_controller.in_station call_controller.door_is_open call_controller.open_door call_controller.close_door call_controller.door_ok call_controller.req_pending)))
+(check-system main 
+   :input () 
+   :output ((param_request_door Bool) (param_warning_start Bool) (param_in_station Bool) (param_door_is_open Bool) (_OK_ Bool) (env_always_ok Bool) (prop_ok Bool) (open_door Bool) (close_door Bool) (door_ok Bool)) 
+   :local ((call_properties.door_is_open Bool) (call_properties.in_station Bool) (call_properties.request_door Bool) (call_properties.warning_start Bool) (call_properties._OK_ Bool) (call_properties.door_doesnt_open_out_of_station Bool) (call_properties.door_opens_before_leaving_station Bool) (call_environment.door_is_open Bool) (call_environment.open_door Bool) (call_environment.close_door Bool) (call_environment.in_station Bool) (call_environment.door_ok Bool) (call_environment.warning_start Bool) (call_environment.env_always_ok Bool) (call_environment.env_ok Bool) (call_environment.door_doesnt_close_if_not_asked Bool) (call_environment.door_doesnt_open_if_not_asked Bool) (call_environment.tramway_doesnt_start_if_not_door_ok Bool) (call_environment.door_initially_closed Bool) (call_environment.initially_not_in_station Bool) (call_environment.warning_start_and_in_station_go_down_simultaneously Bool) (call_environment.warning_start_only_in_station Bool) (call_environment.warning_start_cant_become_true_when_door_is_opening Bool) (call_environment.flby Bool) (call_environment.flby2 Bool) (call_environment.flby3 Bool) (call_controller.request_door Bool) (call_controller.warning_start Bool) (call_controller.in_station Bool) (call_controller.door_is_open Bool) (call_controller.open_door Bool) (call_controller.close_door Bool) (call_controller.door_ok Bool) (call_controller.req_pending Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

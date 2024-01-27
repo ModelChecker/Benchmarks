@@ -1,0 +1,14 @@
+(set-logic QF_LIA)
+(define-system main 
+   :input ((__NONDET_INLINE_INIT__2__4_dollar_main#0 Int) (__NONDET_INLINE_INIT__4__5_dollar_main#1 Int)) 
+   :output ((_PC_dot_0 Bool) (_PC_dot_1 Bool) (_PC_dot_2 Bool) (__RET___dollar_main Int) (j__3_dollar_main Int) (n__1_dollar_main Int)) 
+   :local () 
+   :init (let ((__expr1 (not _PC_dot_0))) (let ((__expr2 (not _PC_dot_1))) (let ((__expr3 (and __expr2 __expr1))) (let ((__expr4 (not _PC_dot_2))) (let ((__expr5 (and __expr4 __expr3))) __expr5))))) 
+   :trans (let ((__expr6 (= n__1_dollar_main' __NONDET_INLINE_INIT__2__4_dollar_main#0))) (let ((__expr7 (= j__3_dollar_main' __NONDET_INLINE_INIT__4__5_dollar_main#1))) (let ((__expr8 (and __expr7 __expr6))) (let ((__expr9 (<= j__3_dollar_main' n__1_dollar_main'))) (let ((__expr10 (and __expr9 __expr8))) (let ((__expr11 (= __RET___dollar_main __RET___dollar_main'))) (let ((__expr12 (and __expr11 __expr10))) (let ((__expr13 (not _PC_dot_2'))) (let ((__expr14 (not _PC_dot_1'))) (let ((__expr15 (and __expr14 _PC_dot_0'))) (let ((__expr16 (and __expr15 __expr13))) (let ((__expr17 (and __expr16 __expr12))) (let ((__expr1 (not _PC_dot_0))) (let ((__expr2 (not _PC_dot_1))) (let ((__expr3 (and __expr2 __expr1))) (let ((__expr4 (not _PC_dot_2))) (let ((__expr5 (and __expr4 __expr3))) (let ((__expr18 (and __expr5 __expr17))) (let ((__expr19 (and __expr2 _PC_dot_0))) (let ((__expr20 (and __expr4 __expr19))) (let ((__expr21 (= n__1_dollar_main n__1_dollar_main'))) (let ((__expr22 (<= j__3_dollar_main n__1_dollar_main))) (let ((__expr23 (* (- 1) j__3_dollar_main'))) (let ((__expr24 (+ j__3_dollar_main __expr23))) (let ((__expr25 (= __expr24 (- 1)))) (let ((__expr26 (and __expr25 __expr22))) (let ((__expr27 (and __expr26 __expr11))) (let ((__expr28 (and __expr27 __expr21))) (let ((__expr29 (and __expr16 __expr28))) (let ((__expr30 (and __expr29 __expr20))) (let ((__expr31 (or __expr30 __expr18))) __expr31))))))))))))))))))))))))))))))) 
+   :inv true )
+(check-system main 
+   :input ((__NONDET_INLINE_INIT__2__4_dollar_main#0 Int) (__NONDET_INLINE_INIT__4__5_dollar_main#1 Int)) 
+   :output ((_PC_dot_0 Bool) (_PC_dot_1 Bool) (_PC_dot_2 Bool) (__RET___dollar_main Int) (j__3_dollar_main Int) (n__1_dollar_main Int)) 
+   :local () 
+   :reachable (rch_1 (not (let ((__expr32 (and _PC_dot_1 _PC_dot_0))) (let ((__expr4 (not _PC_dot_2))) (let ((__expr33 (and __expr4 __expr32))) (let ((__expr34 (not __expr33))) __expr34))))))
+   :query (qry_rch_1 (rch_1)))

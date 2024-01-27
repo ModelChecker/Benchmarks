@@ -1,0 +1,30 @@
+(set-logic QF_LIA)
+(define-system intloop6counter 
+   :input ((x Bool)) 
+   :output ((out Bool) (time Int) (ite Int) (ite2 Int) (ite3 Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (and (and (=> (not x) (= ite' 3)) (=> (not (not x)) (= ite' 5))) (and (=> (= time 4) (= ite2' ite')) (=> (not (= time 4)) (= ite2' (+ time 1))))) (and (=> (= time 5) (= ite3' 2)) (=> (not (= time 5)) (= ite3' ite2')))) (= flby' ite3')) 
+   :inv (and (= out (= time 5)) (= time flby)) )
+(define-system loop6counter 
+   :input ((x Bool)) 
+   :output ((out Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false) (= flby3 false)) 
+   :trans (and (= flby' (or (and b c) (and (and x a) (not c)))) (= flby2' (or (or (and (not b) c) (and b (not c))) (and (not x) a))) (= flby3' (not c))) 
+   :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 
+   :local ((call_loop6counter.x Bool) (call_loop6counter.out Bool) (call_loop6counter.a Bool) (call_loop6counter.b Bool) (call_loop6counter.c Bool) (call_loop6counter.flby Bool) (call_loop6counter.flby2 Bool) (call_loop6counter.flby3 Bool) (call_intloop6counter.x Bool) (call_intloop6counter.out Bool) (call_intloop6counter.time Int) (call_intloop6counter.ite Int) (call_intloop6counter.ite2 Int) (call_intloop6counter.ite3 Int) (call_intloop6counter.flby Int)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (or (not param_x) (= b d))) (= b call_loop6counter.out) (= d call_intloop6counter.out) (= call_loop6counter.x param_x) (= call_intloop6counter.x param_x)) 
+   :subsys (call_loop6counter (loop6counter call_loop6counter.x call_loop6counter.out call_loop6counter.a call_loop6counter.b call_loop6counter.c call_loop6counter.flby call_loop6counter.flby2 call_loop6counter.flby3))
+   :subsys (call_intloop6counter (intloop6counter call_intloop6counter.x call_intloop6counter.out call_intloop6counter.time call_intloop6counter.ite call_intloop6counter.ite2 call_intloop6counter.ite3 call_intloop6counter.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 
+   :local ((call_loop6counter.x Bool) (call_loop6counter.out Bool) (call_loop6counter.a Bool) (call_loop6counter.b Bool) (call_loop6counter.c Bool) (call_loop6counter.flby Bool) (call_loop6counter.flby2 Bool) (call_loop6counter.flby3 Bool) (call_intloop6counter.x Bool) (call_intloop6counter.out Bool) (call_intloop6counter.time Int) (call_intloop6counter.ite Int) (call_intloop6counter.ite2 Int) (call_intloop6counter.ite3 Int) (call_intloop6counter.flby Int)) 
+   :reachable (rch_1 (not _OK_))
+   :query (qry_rch_1 (rch_1)))

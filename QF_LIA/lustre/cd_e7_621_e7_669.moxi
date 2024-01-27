@@ -1,0 +1,46 @@
+(set-logic QF_LIA)
+(define-system Property 
+   :input ((speed Int)) 
+   :output ((ok Bool) (cpt Int) (acceptable Bool) (ite Int) (flby Int) (flby2 Bool)) 
+   :local () 
+   :init (and (=> acceptable (= ite 0)) (= flby 0) (= flby2 true)) 
+   :trans (and (and (=> acceptable' (= ite' 0)) (=> (not acceptable') (= ite' (+ cpt 1)))) (= flby' ite') (= flby2' (<= cpt 7))) 
+   :inv (and (= ok flby2) (= cpt flby) (= acceptable (and (<= 8 speed) (<= speed 12)))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (or _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system Environment 
+   :input ((diff Int) (plus Bool) (minus Bool)) 
+   :output ((ok Bool) (flby Bool) (ite Bool) (flby2 Bool) (ite2 Bool)) 
+   :local () 
+   :init (and (= flby true) (= flby2 false)) 
+   :trans (and (= flby' plus) (= flby2' minus)) 
+   :inv (and (and (and (=> flby (= ite (>= diff 1))) (=> (not flby) (= ite true))) (and (=> flby2 (= ite2 (<= diff (- 1)))) (=> (not flby2) (= ite2 true)))) (= ok (and (and (or (<= (- 4) diff) (<= diff 4)) ite) ite2))) )
+(define-system Controller 
+   :input ((diff Int)) 
+   :output ((speed Int) (plus Bool) (minus Bool) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (= flby' (+ speed diff')) 
+   :inv (and (= speed flby) (= plus (<= speed 9)) (= minus (>= speed 11))) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (speed Int) (plus Bool) (minus Bool) (realistic Bool) (param_diff Int)) 
+   :local ((call_Controller.diff Int) (call_Controller.speed Int) (call_Controller.plus Bool) (call_Controller.minus Bool) (call_Controller.flby Int) (call_Environment.diff Int) (call_Environment.plus Bool) (call_Environment.minus Bool) (call_Environment.ok Bool) (call_Environment.flby Bool) (call_Environment.ite Bool) (call_Environment.flby2 Bool) (call_Environment.ite2 Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_Property.speed Int) (call_Property.ok Bool) (call_Property.cpt Int) (call_Property.acceptable Bool) (call_Property.ite Int) (call_Property.flby Int) (call_Property.flby2 Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (=> call_Sofar.Sofar call_Property.ok)) (= speed call_Controller.speed) (= plus call_Controller.plus) (= minus call_Controller.minus) (= realistic call_Environment.ok) (= call_Controller.diff param_diff) (= call_Environment.diff param_diff) (= call_Environment.plus plus) (= call_Environment.minus minus) (= call_Sofar._X_ (and (and realistic (<= 0 speed)) (> speed 16))) (= call_Property.speed speed)) 
+   :subsys (call_Controller (Controller call_Controller.diff call_Controller.speed call_Controller.plus call_Controller.minus call_Controller.flby))
+   :subsys (call_Environment (Environment call_Environment.diff call_Environment.plus call_Environment.minus call_Environment.ok call_Environment.flby call_Environment.ite call_Environment.flby2 call_Environment.ite2))
+   :subsys (call_Sofar (Sofar call_Sofar._X_ call_Sofar.Sofar call_Sofar.flby))
+   :subsys (call_Property (Property call_Property.speed call_Property.ok call_Property.cpt call_Property.acceptable call_Property.ite call_Property.flby call_Property.flby2)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (speed Int) (plus Bool) (minus Bool) (realistic Bool) (param_diff Int)) 
+   :local ((call_Controller.diff Int) (call_Controller.speed Int) (call_Controller.plus Bool) (call_Controller.minus Bool) (call_Controller.flby Int) (call_Environment.diff Int) (call_Environment.plus Bool) (call_Environment.minus Bool) (call_Environment.ok Bool) (call_Environment.flby Bool) (call_Environment.ite Bool) (call_Environment.flby2 Bool) (call_Environment.ite2 Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_Property.speed Int) (call_Property.ok Bool) (call_Property.cpt Int) (call_Property.acceptable Bool) (call_Property.ite Int) (call_Property.flby Int) (call_Property.flby2 Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

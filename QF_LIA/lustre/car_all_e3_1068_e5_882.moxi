@@ -1,0 +1,38 @@
+(set-logic QF_LIA)
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system excludes2 
+   :input ((_X1_ Bool) (_X2_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (and _X1_ _X2_))) )
+(define-system voiture 
+   :input ((m Bool) (s Bool)) 
+   :output ((toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (ite Int) (flby4 Int) (ite2 Int) (ite3 Int) (flby5 Int) (ite4 Int) (flby6 Int)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false) (= flby3 true) (= flby4 0) (= flby5 0) (= flby6 0)) 
+   :trans (and (and (and (and (=> (and move' meter') (= ite' (+ dist 1))) (=> (not (and move' meter')) (= ite' dist))) (and (=> (and move' meter') (= ite2' (- (- speed 1) 1))) (=> (not (and move' meter')) (= ite2' speed)))) (and (=> second' (= ite4' (+ time 1))) (=> (not second') (= ite4' time)))) (= flby' (and m' (not s'))) (= flby2' s') (= flby3' (and (and (and move (not stop)) (not toofast)) (not bump))) (= flby4' ite') (= flby5' ite3') (= flby6' ite4')) 
+   :inv (and (and (=> (or (not move) second) (= ite3 0)) (=> (not (or (not move) second)) (= ite3 ite2))) (= toofast (>= speed 3)) (= stop (>= time 4)) (= bump (= dist 10)) (= dist flby4) (= speed flby5) (= time flby6) (= move flby3) (= second flby2) (= meter flby)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (env Bool) (param_m Bool) (param_s Bool)) 
+   :local ((call_voiture.m Bool) (call_voiture.s Bool) (call_voiture.toofast Bool) (call_voiture.stop Bool) (call_voiture.bump Bool) (call_voiture.dist Int) (call_voiture.speed Int) (call_voiture.time Int) (call_voiture.move Bool) (call_voiture.second Bool) (call_voiture.meter Bool) (call_voiture.flby Bool) (call_voiture.flby2 Bool) (call_voiture.flby3 Bool) (call_voiture.ite Int) (call_voiture.flby4 Int) (call_voiture.ite2 Int) (call_voiture.ite3 Int) (call_voiture.flby5 Int) (call_voiture.ite4 Int) (call_voiture.flby6 Int) (call_excludes2._X1_ Bool) (call_excludes2._X2_ Bool) (call_excludes2.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (=> env (and (and (and (>= dist 0) (> dist 11)) (> speed 4)) (>= speed 0)))) (= toofast call_voiture.toofast) (= stop call_voiture.stop) (= bump call_voiture.bump) (= dist call_voiture.dist) (= speed call_voiture.speed) (= time call_voiture.time) (= move call_voiture.move) (= second call_voiture.second) (= meter call_voiture.meter) (= env call_Sofar.Sofar) (= call_voiture.m param_m) (= call_voiture.s param_s) (= call_excludes2._X1_ param_m) (= call_excludes2._X2_ param_s) (= call_Sofar._X_ (and call_excludes2.excludes (> dist 32767)))) 
+   :subsys (call_voiture (voiture call_voiture.m call_voiture.s call_voiture.toofast call_voiture.stop call_voiture.bump call_voiture.dist call_voiture.speed call_voiture.time call_voiture.move call_voiture.second call_voiture.meter call_voiture.flby call_voiture.flby2 call_voiture.flby3 call_voiture.ite call_voiture.flby4 call_voiture.ite2 call_voiture.ite3 call_voiture.flby5 call_voiture.ite4 call_voiture.flby6))
+   :subsys (call_excludes2 (excludes2 call_excludes2._X1_ call_excludes2._X2_ call_excludes2.excludes))
+   :subsys (call_Sofar (Sofar call_Sofar._X_ call_Sofar.Sofar call_Sofar.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (env Bool) (param_m Bool) (param_s Bool)) 
+   :local ((call_voiture.m Bool) (call_voiture.s Bool) (call_voiture.toofast Bool) (call_voiture.stop Bool) (call_voiture.bump Bool) (call_voiture.dist Int) (call_voiture.speed Int) (call_voiture.time Int) (call_voiture.move Bool) (call_voiture.second Bool) (call_voiture.meter Bool) (call_voiture.flby Bool) (call_voiture.flby2 Bool) (call_voiture.flby3 Bool) (call_voiture.ite Int) (call_voiture.flby4 Int) (call_voiture.ite2 Int) (call_voiture.ite3 Int) (call_voiture.flby5 Int) (call_voiture.ite4 Int) (call_voiture.flby6 Int) (call_excludes2._X1_ Bool) (call_excludes2._X2_ Bool) (call_excludes2.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

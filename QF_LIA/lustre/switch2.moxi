@@ -1,0 +1,30 @@
+(set-logic QF_LIA)
+(define-system _SWITCH1_ 
+   :input ((set Bool) (reset Bool) (initial Bool)) 
+   :output ((level Bool) (ite Bool) (ite2 Bool) (flby Bool)) 
+   :local () 
+   :init (and (=> reset (= ite false)) (= flby initial)) 
+   :trans (and (and (=> reset' (= ite' false)) (=> (not reset') (= ite' level))) (= flby' ite2')) 
+   :inv (and (and (=> set (= ite2 true)) (=> (not set) (= ite2 ite))) (= level flby)) )
+(define-system _SWITCH_ 
+   :input ((set Bool) (reset Bool) (initial Bool)) 
+   :output ((level Bool) (ite Bool) (ite2 Bool) (flby Bool)) 
+   :local () 
+   :init (and (=> reset (= ite false)) (= flby initial)) 
+   :trans (and (and (and (=> reset' (= ite' false)) (=> (not reset') (= ite' level))) (and (=> (and set' (not level)) (= ite2' true)) (=> (not (and set' (not level))) (= ite2' ite')))) (= flby' ite2')) 
+   :inv (= level flby) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (level Bool) (level1 Bool) (ite Bool) (param_set Bool) (param_treset Bool) (param_initial Bool)) 
+   :local ((call__SWITCH_.set Bool) (call__SWITCH_.reset Bool) (call__SWITCH_.initial Bool) (call__SWITCH_.level Bool) (call__SWITCH_.ite Bool) (call__SWITCH_.ite2 Bool) (call__SWITCH_.flby Bool) (call__SWITCH1_.set Bool) (call__SWITCH1_.reset Bool) (call__SWITCH1_.initial Bool) (call__SWITCH1_.level Bool) (call__SWITCH1_.ite Bool) (call__SWITCH1_.ite2 Bool) (call__SWITCH1_.flby Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (and (=> (not (and param_set param_treset)) (= ite (= level level1))) (=> (not (not (and param_set param_treset))) (= ite true))) (= _OK_ ite) (= level call__SWITCH_.level) (= level1 call__SWITCH1_.level) (= call__SWITCH_.set param_set) (= call__SWITCH_.reset param_treset) (= call__SWITCH_.initial param_initial) (= call__SWITCH1_.set param_set) (= call__SWITCH1_.reset param_treset) (= call__SWITCH1_.initial param_initial)) 
+   :subsys (call__SWITCH_ (_SWITCH_ call__SWITCH_.set call__SWITCH_.reset call__SWITCH_.initial call__SWITCH_.level call__SWITCH_.ite call__SWITCH_.ite2 call__SWITCH_.flby))
+   :subsys (call__SWITCH1_ (_SWITCH1_ call__SWITCH1_.set call__SWITCH1_.reset call__SWITCH1_.initial call__SWITCH1_.level call__SWITCH1_.ite call__SWITCH1_.ite2 call__SWITCH1_.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (level Bool) (level1 Bool) (ite Bool) (param_set Bool) (param_treset Bool) (param_initial Bool)) 
+   :local ((call__SWITCH_.set Bool) (call__SWITCH_.reset Bool) (call__SWITCH_.initial Bool) (call__SWITCH_.level Bool) (call__SWITCH_.ite Bool) (call__SWITCH_.ite2 Bool) (call__SWITCH_.flby Bool) (call__SWITCH1_.set Bool) (call__SWITCH1_.reset Bool) (call__SWITCH1_.initial Bool) (call__SWITCH1_.level Bool) (call__SWITCH1_.ite Bool) (call__SWITCH1_.ite2 Bool) (call__SWITCH1_.flby Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

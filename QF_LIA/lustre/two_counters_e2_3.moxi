@@ -1,0 +1,30 @@
+(set-logic QF_LIA)
+(define-system intloopcounter 
+   :input ((x Bool)) 
+   :output ((out Bool) (time Int) (ite Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (=> (= time 3) (= ite' 0)) (=> (not (= time 3)) (= ite' (+ (- time 1) 1)))) (= flby' ite')) 
+   :inv (and (= out (= time 2)) (= time flby)) )
+(define-system greycounter 
+   :input ((x Bool)) 
+   :output ((out Bool) (a Bool) (b Bool) (flby Bool) (flby2 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false)) 
+   :trans (and (= flby' (not b)) (= flby2' a)) 
+   :inv (and (= out (and a b)) (= a flby) (= b flby2)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 
+   :local ((call_greycounter.x Bool) (call_greycounter.out Bool) (call_greycounter.a Bool) (call_greycounter.b Bool) (call_greycounter.flby Bool) (call_greycounter.flby2 Bool) (call_intloopcounter.x Bool) (call_intloopcounter.out Bool) (call_intloopcounter.time Int) (call_intloopcounter.ite Int) (call_intloopcounter.flby Int)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (= b d)) (= b call_greycounter.out) (= d call_intloopcounter.out) (= call_greycounter.x param_x) (= call_intloopcounter.x param_x)) 
+   :subsys (call_greycounter (greycounter call_greycounter.x call_greycounter.out call_greycounter.a call_greycounter.b call_greycounter.flby call_greycounter.flby2))
+   :subsys (call_intloopcounter (intloopcounter call_intloopcounter.x call_intloopcounter.out call_intloopcounter.time call_intloopcounter.ite call_intloopcounter.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 
+   :local ((call_greycounter.x Bool) (call_greycounter.out Bool) (call_greycounter.a Bool) (call_greycounter.b Bool) (call_greycounter.flby Bool) (call_greycounter.flby2 Bool) (call_intloopcounter.x Bool) (call_intloopcounter.out Bool) (call_intloopcounter.time Int) (call_intloopcounter.ite Int) (call_intloopcounter.flby Int)) 
+   :reachable (rch_1 (not _OK_))
+   :query (qry_rch_1 (rch_1)))

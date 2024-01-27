@@ -1,0 +1,30 @@
+(set-logic QF_LIA)
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((_Y_ Bool) (flby Bool)) 
+   :local () 
+   :init (= flby true) 
+   :trans (= flby' _Y_) 
+   :inv (= _Y_ (or flby _X_)) )
+(define-system Store 
+   :input ((Delta Int)) 
+   :output ((Total Int) (Prev Int) (flby Int) (ite Int) (ite2 Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (= flby' Total) 
+   :inv (and (and (and (=> (and (> Delta 0) (> Prev 10)) (= ite (+ Prev Delta))) (=> (not (and (> Delta 0) (> Prev 10))) (= ite Prev))) (and (=> (and (> Delta 0) (> Prev 0)) (= ite2 (+ Prev Delta))) (=> (not (and (> Delta 0) (> Prev 0))) (= ite2 ite)))) (= Total ite2) (= Prev flby)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (Total Int) (param_Delta Int)) 
+   :local ((call_Store.Delta Int) (call_Store.Total Int) (call_Store.Prev Int) (call_Store.flby Int) (call_Store.ite Int) (call_Store.ite2 Int) (call_Sofar._X_ Bool) (call_Sofar._Y_ Bool) (call_Sofar.flby Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= _OK_ (=> call_Sofar._Y_ (and (<= 0 Total) (<= Total 20)))) (= Total call_Store.Total) (= call_Store.Delta param_Delta) (= call_Sofar._X_ (and (<= (- 1) param_Delta) (<= param_Delta 1)))) 
+   :subsys (call_Store (Store call_Store.Delta call_Store.Total call_Store.Prev call_Store.flby call_Store.ite call_Store.ite2))
+   :subsys (call_Sofar (Sofar call_Sofar._X_ call_Sofar._Y_ call_Sofar.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (Total Int) (param_Delta Int)) 
+   :local ((call_Store.Delta Int) (call_Store.Total Int) (call_Store.Prev Int) (call_Store.flby Int) (call_Store.ite Int) (call_Store.ite2 Int) (call_Sofar._X_ Bool) (call_Sofar._Y_ Bool) (call_Sofar.flby Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

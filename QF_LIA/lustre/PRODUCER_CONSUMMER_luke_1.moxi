@@ -1,0 +1,46 @@
+(set-logic QF_LIA)
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system excludes3 
+   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
+(define-system _PRODUCER_CONSUMMER_ 
+   :input ((etat1 Bool) (etat2 Bool) (etat3 Bool) (a_init Int)) 
+   :output ((i Int) (b Int) (a Int) (o1 Int) (o2 Int) (garde1 Bool) (garde2 Bool) (garde3 Bool) (ite Int) (ite2 Int) (flby Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (ite7 Int) (flby2 Int) (flby3 Int) (ite8 Int) (ite9 Int) (flby4 Int) (ite10 Int) (ite11 Int) (flby5 Int)) 
+   :local () 
+   :init (and (and (and (=> etat1 (= ite2 ite)) (=> etat2 (= ite9 ite8))) (=> etat3 (= ite11 ite10))) (= flby a) (= flby2 0) (= flby3 a_init) (= flby4 0) (= flby5 0)) 
+   :trans (and (and (and (and (and (and (and (and (and (and (=> garde1' (= ite' (- i 1))) (=> (not garde1') (= ite' i))) (and (=> etat1' (= ite2' ite')) (=> (not etat1') (= ite2' i)))) (and (=> garde1' (= ite3' (+ b 1))) (=> (not garde1') (= ite3' b)))) (and (=> garde2' (= ite4' (- b 1))) (=> (not garde2') (= ite4' b)))) (and (=> garde3' (= ite5' (- b 1))) (=> (not garde3') (= ite5' b)))) (and (=> garde2' (= ite8' (+ o1 1))) (=> (not garde2') (= ite8' o1)))) (and (=> etat2' (= ite9' ite8')) (=> (not etat2') (= ite9' o1)))) (and (=> garde3' (= ite10' (+ o2 1))) (=> (not garde3') (= ite10' o2)))) (and (=> etat3' (= ite11' ite10')) (=> (not etat3') (= ite11' o2)))) (= garde1' (>= i 1)) (= garde2' (>= b 1)) (= garde3' (>= b 1)) (= flby' ite2') (= flby2' ite7') (= flby3' a) (= flby4' ite9') (= flby5' ite11')) 
+   :inv (and (and (and (=> etat2 (= ite6 ite4)) (=> (not etat2) (= ite6 ite5))) (and (=> etat1 (= ite7 ite3)) (=> (not etat1) (= ite7 ite6)))) (= i flby) (= b flby2) (= a flby3) (= o1 flby4) (= o2 flby5)) )
+(define-system main 
+   :input () 
+   :output ((param_a_init Int) (_OK_ Bool) (i Int) (b Int) (a Int) (o1 Int) (o2 Int) (env Bool) (flby Bool) (flby2 Bool) (param_etat1 Bool) (param_etat2 Bool) (param_etat3 Bool)) 
+   :local ((call__PRODUCER_CONSUMMER_.etat1 Bool) (call__PRODUCER_CONSUMMER_.etat2 Bool) (call__PRODUCER_CONSUMMER_.etat3 Bool) (call__PRODUCER_CONSUMMER_.a_init Int) (call__PRODUCER_CONSUMMER_.i Int) (call__PRODUCER_CONSUMMER_.b Int) (call__PRODUCER_CONSUMMER_.a Int) (call__PRODUCER_CONSUMMER_.o1 Int) (call__PRODUCER_CONSUMMER_.o2 Int) (call__PRODUCER_CONSUMMER_.garde1 Bool) (call__PRODUCER_CONSUMMER_.garde2 Bool) (call__PRODUCER_CONSUMMER_.garde3 Bool) (call__PRODUCER_CONSUMMER_.ite Int) (call__PRODUCER_CONSUMMER_.ite2 Int) (call__PRODUCER_CONSUMMER_.flby Int) (call__PRODUCER_CONSUMMER_.ite3 Int) (call__PRODUCER_CONSUMMER_.ite4 Int) (call__PRODUCER_CONSUMMER_.ite5 Int) (call__PRODUCER_CONSUMMER_.ite6 Int) (call__PRODUCER_CONSUMMER_.ite7 Int) (call__PRODUCER_CONSUMMER_.flby2 Int) (call__PRODUCER_CONSUMMER_.flby3 Int) (call__PRODUCER_CONSUMMER_.ite8 Int) (call__PRODUCER_CONSUMMER_.ite9 Int) (call__PRODUCER_CONSUMMER_.flby4 Int) (call__PRODUCER_CONSUMMER_.ite10 Int) (call__PRODUCER_CONSUMMER_.ite11 Int) (call__PRODUCER_CONSUMMER_.flby5 Int) (call_excludes3._X1_ Bool) (call_excludes3._X2_ Bool) (call_excludes3._X3_ Bool) (call_excludes3.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_First._X_ Int) (call_First.First Int) (call_First.flby Int)) 
+   :init (and (= flby (not param_etat1)) (= flby2 true)) 
+   :trans (and (= flby' true) (= flby2' (=> (and param_etat1 param_etat2') (= o1' (+ o1 1))))) 
+   :inv (and (= _OK_ (=> (and env flby) flby2)) (= i call__PRODUCER_CONSUMMER_.i) (= b call__PRODUCER_CONSUMMER_.b) (= a call__PRODUCER_CONSUMMER_.a) (= o1 call__PRODUCER_CONSUMMER_.o1) (= o2 call__PRODUCER_CONSUMMER_.o2) (= env (and call_Sofar.Sofar (> call_First.First 0))) (= call__PRODUCER_CONSUMMER_.etat1 param_etat1) (= call__PRODUCER_CONSUMMER_.etat2 param_etat2) (= call__PRODUCER_CONSUMMER_.etat3 param_etat3) (= call__PRODUCER_CONSUMMER_.a_init param_a_init) (= call_excludes3._X1_ param_etat1) (= call_excludes3._X2_ param_etat2) (= call_excludes3._X3_ param_etat3) (= call_Sofar._X_ call_excludes3.excludes) (= call_First._X_ param_a_init)) 
+   :subsys (call__PRODUCER_CONSUMMER_ (_PRODUCER_CONSUMMER_ call__PRODUCER_CONSUMMER_.etat1 call__PRODUCER_CONSUMMER_.etat2 call__PRODUCER_CONSUMMER_.etat3 call__PRODUCER_CONSUMMER_.a_init call__PRODUCER_CONSUMMER_.i call__PRODUCER_CONSUMMER_.b call__PRODUCER_CONSUMMER_.a call__PRODUCER_CONSUMMER_.o1 call__PRODUCER_CONSUMMER_.o2 call__PRODUCER_CONSUMMER_.garde1 call__PRODUCER_CONSUMMER_.garde2 call__PRODUCER_CONSUMMER_.garde3 call__PRODUCER_CONSUMMER_.ite call__PRODUCER_CONSUMMER_.ite2 call__PRODUCER_CONSUMMER_.flby call__PRODUCER_CONSUMMER_.ite3 call__PRODUCER_CONSUMMER_.ite4 call__PRODUCER_CONSUMMER_.ite5 call__PRODUCER_CONSUMMER_.ite6 call__PRODUCER_CONSUMMER_.ite7 call__PRODUCER_CONSUMMER_.flby2 call__PRODUCER_CONSUMMER_.flby3 call__PRODUCER_CONSUMMER_.ite8 call__PRODUCER_CONSUMMER_.ite9 call__PRODUCER_CONSUMMER_.flby4 call__PRODUCER_CONSUMMER_.ite10 call__PRODUCER_CONSUMMER_.ite11 call__PRODUCER_CONSUMMER_.flby5))
+   :subsys (call_excludes3 (excludes3 call_excludes3._X1_ call_excludes3._X2_ call_excludes3._X3_ call_excludes3.excludes))
+   :subsys (call_Sofar (Sofar call_Sofar._X_ call_Sofar.Sofar call_Sofar.flby))
+   :subsys (call_First (First call_First._X_ call_First.First call_First.flby)))
+(check-system main 
+   :input () 
+   :output ((param_a_init Int) (_OK_ Bool) (i Int) (b Int) (a Int) (o1 Int) (o2 Int) (env Bool) (flby Bool) (flby2 Bool) (param_etat1 Bool) (param_etat2 Bool) (param_etat3 Bool)) 
+   :local ((call__PRODUCER_CONSUMMER_.etat1 Bool) (call__PRODUCER_CONSUMMER_.etat2 Bool) (call__PRODUCER_CONSUMMER_.etat3 Bool) (call__PRODUCER_CONSUMMER_.a_init Int) (call__PRODUCER_CONSUMMER_.i Int) (call__PRODUCER_CONSUMMER_.b Int) (call__PRODUCER_CONSUMMER_.a Int) (call__PRODUCER_CONSUMMER_.o1 Int) (call__PRODUCER_CONSUMMER_.o2 Int) (call__PRODUCER_CONSUMMER_.garde1 Bool) (call__PRODUCER_CONSUMMER_.garde2 Bool) (call__PRODUCER_CONSUMMER_.garde3 Bool) (call__PRODUCER_CONSUMMER_.ite Int) (call__PRODUCER_CONSUMMER_.ite2 Int) (call__PRODUCER_CONSUMMER_.flby Int) (call__PRODUCER_CONSUMMER_.ite3 Int) (call__PRODUCER_CONSUMMER_.ite4 Int) (call__PRODUCER_CONSUMMER_.ite5 Int) (call__PRODUCER_CONSUMMER_.ite6 Int) (call__PRODUCER_CONSUMMER_.ite7 Int) (call__PRODUCER_CONSUMMER_.flby2 Int) (call__PRODUCER_CONSUMMER_.flby3 Int) (call__PRODUCER_CONSUMMER_.ite8 Int) (call__PRODUCER_CONSUMMER_.ite9 Int) (call__PRODUCER_CONSUMMER_.flby4 Int) (call__PRODUCER_CONSUMMER_.ite10 Int) (call__PRODUCER_CONSUMMER_.ite11 Int) (call__PRODUCER_CONSUMMER_.flby5 Int) (call_excludes3._X1_ Bool) (call_excludes3._X2_ Bool) (call_excludes3._X3_ Bool) (call_excludes3.excludes Bool) (call_Sofar._X_ Bool) (call_Sofar.Sofar Bool) (call_Sofar.flby Bool) (call_First._X_ Int) (call_First.First Int) (call_First.flby Int)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))

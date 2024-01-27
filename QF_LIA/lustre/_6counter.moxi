@@ -1,0 +1,14 @@
+(set-logic QF_LIA)
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (flby4 Bool) (flby5 Bool) (param_x Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false) (= flby3 false) (= flby4 true) (= flby5 true)) 
+   :trans (and (= flby' (not a)) (= flby2' (or (and (and (not c) (not b)) a) (and b (not a)))) (= flby3' (or (and c (not a)) (and b a))) (= flby4' b) (= flby5' (= flby4 (not b')))) 
+   :inv (and (= _OK_ flby5) (= a flby) (= b flby2) (= c flby3)) )
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (flby4 Bool) (flby5 Bool) (param_x Bool)) 
+   :local () 
+   :reachable (rch_1 (not _OK_))
+   :query (qry_rch_1 (rch_1)))

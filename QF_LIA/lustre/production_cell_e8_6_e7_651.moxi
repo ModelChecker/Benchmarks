@@ -1,0 +1,43 @@
+(set-logic QF_LIA)
+(define-system redge 
+   :input ((signal Bool)) 
+   :output ((r Bool) (flby Bool)) 
+   :local () 
+   :init (= flby signal) 
+   :trans (= flby' (or signal' (not signal))) 
+   :inv (= r flby) )
+(define-system fedge 
+   :input ((signal Bool)) 
+   :output ((f Bool)) 
+   :local ((call_redge.signal Bool) (call_redge.r Bool) (call_redge.flby Bool)) 
+   :init true 
+   :trans true 
+   :inv (and (= f call_redge.r) (= call_redge.signal (not signal))) 
+   :subsys (call_redge (redge call_redge.signal call_redge.r call_redge.flby)))
+(define-system sustain 
+   :input ((on Bool) (off Bool)) 
+   :output ((s Bool) (ite Bool) (ite2 Bool) (flby Bool)) 
+   :local () 
+   :init (and (=> off (= ite false)) (= flby on)) 
+   :trans (and (and (=> off' (= ite' false)) (=> (not off') (= ite' s))) (= flby' ite2')) 
+   :inv (and (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite))) (= s flby)) )
+(define-system main 
+   :input () 
+   :output ((_OK_ Bool) (MayMove1 Bool) (MayMove2 Bool) (start1 Bool) (start2 Bool) (stop Bool) (moving Bool) (flby Bool) (flby2 Bool) (ite Bool) (ite2 Bool) (flby3 Bool) (param_MaySafelyMove Bool) (param_TryToMove1 Bool) (param_TryToMove2 Bool)) 
+   :local ((call_sustain.on Bool) (call_sustain.off Bool) (call_sustain.s Bool) (call_sustain.ite Bool) (call_sustain.ite2 Bool) (call_sustain.flby Bool) (call_redge.signal Bool) (call_redge.r Bool) (call_redge.flby Bool) (call_redge2.signal Bool) (call_redge2.r Bool) (call_redge2.flby Bool) (call_fedge.signal Bool) (call_fedge.f Bool) (call_fedge2.signal Bool) (call_fedge2.f Bool) (call_redge3.signal Bool) (call_redge3.r Bool) (call_redge3.flby Bool) (call_redge4.signal Bool) (call_redge4.r Bool) (call_redge4.flby Bool)) 
+   :init (and (= flby true) (= flby2 true) (= flby3 true)) 
+   :trans (and (= flby' (not param_TryToMove2)) (= flby2' (not param_TryToMove1)) (= flby3' ite2')) 
+   :inv (and (and (and (=> moving (= ite param_MaySafelyMove)) (=> (not moving) (= ite true))) (and (=> (or (not call_redge3.r) (not call_redge4.r)) (= ite2 (and (and (or (or (and (not start1) (not start2)) (and (not start2) (not stop))) (and (not start1) (not stop))) (not (and (and start1 start2) stop))) ite))) (=> (not (or (not call_redge3.r) (not call_redge4.r))) (= ite2 true)))) (= _OK_ flby3) (= MayMove1 (and param_TryToMove1 param_MaySafelyMove)) (= MayMove2 (and param_TryToMove2 param_MaySafelyMove)) (= start1 call_redge.r) (= start2 call_redge2.r) (= stop (or call_fedge.f call_fedge2.f)) (= moving call_sustain.s) (= call_sustain.on (and start1 start2)) (= call_sustain.off stop) (= call_redge.signal (and MayMove1 flby)) (= call_redge2.signal (and MayMove2 flby2)) (= call_fedge.signal MayMove1) (= call_fedge2.signal MayMove2) (= call_redge3.signal param_TryToMove1) (= call_redge4.signal param_TryToMove2)) 
+   :subsys (call_sustain (sustain call_sustain.on call_sustain.off call_sustain.s call_sustain.ite call_sustain.ite2 call_sustain.flby))
+   :subsys (call_redge (redge call_redge.signal call_redge.r call_redge.flby))
+   :subsys (call_redge2 (redge call_redge2.signal call_redge2.r call_redge2.flby))
+   :subsys (call_fedge (fedge call_fedge.signal call_fedge.f))
+   :subsys (call_fedge2 (fedge call_fedge2.signal call_fedge2.f))
+   :subsys (call_redge3 (redge call_redge3.signal call_redge3.r call_redge3.flby))
+   :subsys (call_redge4 (redge call_redge4.signal call_redge4.r call_redge4.flby)))
+(check-system main 
+   :input () 
+   :output ((_OK_ Bool) (MayMove1 Bool) (MayMove2 Bool) (start1 Bool) (start2 Bool) (stop Bool) (moving Bool) (flby Bool) (flby2 Bool) (ite Bool) (ite2 Bool) (flby3 Bool) (param_MaySafelyMove Bool) (param_TryToMove1 Bool) (param_TryToMove2 Bool)) 
+   :local ((call_sustain.on Bool) (call_sustain.off Bool) (call_sustain.s Bool) (call_sustain.ite Bool) (call_sustain.ite2 Bool) (call_sustain.flby Bool) (call_redge.signal Bool) (call_redge.r Bool) (call_redge.flby Bool) (call_redge2.signal Bool) (call_redge2.r Bool) (call_redge2.flby Bool) (call_fedge.signal Bool) (call_fedge.f Bool) (call_fedge2.signal Bool) (call_fedge2.f Bool) (call_redge3.signal Bool) (call_redge3.r Bool) (call_redge3.flby Bool) (call_redge4.signal Bool) (call_redge4.r Bool) (call_redge4.flby Bool)) 
+   :reachable (rch_1 (not (= _OK_ true)))
+   :query (qry_rch_1 (rch_1)))
