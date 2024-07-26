@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system First 
-   :input ((_X_ Int)) 
-   :output ((First Int) (flby Int)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' First) 
-   :inv (= First flby) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -20,6 +13,13 @@
    :init true 
    :trans true 
    :inv (= excludes (or (or (or (or (or (or (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (and (and (and (and (and _X1_ (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) _X3_) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) _X4_) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) _X5_) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) _X6_))) )
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
 (define-system swimingpool 
    :input ((e1 Bool) (e2 Bool) (e3 Bool) (e4 Bool) (e5 Bool) (e6 Bool) (init_p1 Int) (init_p2 Int)) 
    :output ((x1 Int) (x2 Int) (x3 Int) (x4 Int) (x5 Int) (x6 Int) (x7 Int) (p1 Int) (p2 Int) (g1 Bool) (g2 Bool) (g3 Bool) (g4 Bool) (g5 Bool) (g6 Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (flby4 Bool) (flby5 Bool) (flby6 Bool) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (flby7 Int) (ite5 Int) (ite6 Int) (ite7 Int) (ite8 Int) (flby8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby9 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (flby10 Int) (ite17 Int) (ite18 Int) (ite19 Int) (ite20 Int) (flby11 Int) (ite21 Int) (ite22 Int) (ite23 Int) (ite24 Int) (ite25 Int) (ite26 Int) (ite27 Int) (ite28 Int) (flby12 Int) (ite29 Int) (ite30 Int) (ite31 Int) (ite32 Int) (flby13 Int) (flby14 Int) (flby15 Int)) 

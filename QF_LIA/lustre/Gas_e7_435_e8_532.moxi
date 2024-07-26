@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Age 
-   :input ((_P1_ Bool)) 
-   :output ((Count Int) (ite Int) (flby Int)) 
-   :local () 
-   :init (= flby 0) 
-   :trans (and (and (=> _P1_ (= ite' (+ Count 1))) (=> (not _P1_) (= ite' 0))) (= flby' ite')) 
-   :inv (= Count flby) )
 (define-system Dursince 
    :input ((_P1_ Bool) (_Q_ Bool)) 
    :output ((Count Int) (ite Int) (ite2 Int) (flby Int)) 
@@ -13,13 +6,13 @@
    :init (= flby 0) 
    :trans (and (and (and (=> _Q_ (= ite' (+ Count 1))) (=> (not _Q_) (= ite' Count))) (and (=> _P1_ (= ite2' 0)) (=> (not _P1_) (= ite2' ite')))) (= flby' ite2')) 
    :inv (= Count flby) )
-(define-system RaisingEdge 
+(define-system Age 
    :input ((_P1_ Bool)) 
-   :output ((res Bool) (flby Bool)) 
+   :output ((Count Int) (ite Int) (flby Int)) 
    :local () 
-   :init (= flby false) 
-   :trans (= flby' (and (not _P1_) _P1_')) 
-   :inv (= res flby) )
+   :init (= flby 0) 
+   :trans (and (and (=> _P1_ (= ite' (+ Count 1))) (=> (not _P1_) (= ite' 0))) (= flby' ite')) 
+   :inv (= Count flby) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -27,6 +20,13 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
+(define-system RaisingEdge 
+   :input ((_P1_ Bool)) 
+   :output ((res Bool) (flby Bool)) 
+   :local () 
+   :init (= flby false) 
+   :trans (= flby' (and (not _P1_) _P1_')) 
+   :inv (= res flby) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (env Bool) (param_leak Bool) (param__P1_ Bool)) 

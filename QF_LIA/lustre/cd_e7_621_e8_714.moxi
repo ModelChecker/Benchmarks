@@ -1,18 +1,4 @@
 (set-logic QF_LIA)
-(define-system Property 
-   :input ((speed Int)) 
-   :output ((ok Bool) (cpt Int) (acceptable Bool) (ite Int) (flby Int) (flby2 Bool)) 
-   :local () 
-   :init (and (=> acceptable (= ite 0)) (= flby 0) (= flby2 true)) 
-   :trans (and (and (=> acceptable' (= ite' 0)) (=> (not acceptable') (= ite' (+ cpt 1)))) (= flby' ite') (= flby2' (<= cpt 7))) 
-   :inv (and (= ok flby2) (= cpt flby) (= acceptable (and (<= 8 speed) (<= speed 12)))) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (and _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system Environment 
    :input ((diff Int) (plus Bool) (minus Bool)) 
    :output ((ok Bool) (flby Bool) (ite Bool) (flby2 Bool) (ite2 Bool)) 
@@ -27,6 +13,20 @@
    :init (= flby 0) 
    :trans (= flby' (+ speed diff')) 
    :inv (and (= speed flby) (= plus (<= speed 9)) (= minus (>= speed 11))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system Property 
+   :input ((speed Int)) 
+   :output ((ok Bool) (cpt Int) (acceptable Bool) (ite Int) (flby Int) (flby2 Bool)) 
+   :local () 
+   :init (and (=> acceptable (= ite 0)) (= flby 0) (= flby2 true)) 
+   :trans (and (and (=> acceptable' (= ite' 0)) (=> (not acceptable') (= ite' (+ cpt 1)))) (= flby' ite') (= flby2' (<= cpt 7))) 
+   :inv (and (= ok flby2) (= cpt flby) (= acceptable (and (<= 8 speed) (<= speed 12)))) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (speed Int) (plus Bool) (minus Bool) (realistic Bool) (param_diff Int)) 

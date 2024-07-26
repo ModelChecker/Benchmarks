@@ -1,4 +1,3 @@
-(set-logic QF_LIA)
 (define-system _SWITCH1_ 
    :input ((set Bool) (reset Bool) (initial Bool)) 
    :output ((level Bool) (ite Bool) (ite2 Bool) (flby Bool)) 

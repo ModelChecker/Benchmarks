@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Abs 
-   :input ((_X_ Int)) 
-   :output ((Abs Int) (ite Int)) 
-   :local () 
-   :init true 
-   :trans true 
-   :inv (and (and (=> (> _X_ 0) (= ite (- _X_))) (=> (not (> _X_ 0)) (= ite _X_))) (= Abs ite)) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -13,6 +6,13 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
+(define-system Abs 
+   :input ((_X_ Int)) 
+   :output ((Abs Int) (ite Int)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (and (and (=> (> _X_ 0) (= ite (- _X_))) (=> (not (> _X_ 0)) (= ite _X_))) (= Abs ite)) )
 (define-system excludes4 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool)) 
    :output ((excludes Bool)) 

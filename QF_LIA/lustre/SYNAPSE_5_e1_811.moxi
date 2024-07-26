@@ -1,4 +1,11 @@
 (set-logic QF_LIA)
+(define-system excludes3 
+   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
 (define-system First 
    :input ((_X_ Int)) 
    :output ((First Int) (flby Int)) 
@@ -13,13 +20,6 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
-(define-system excludes3 
-   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
-   :output ((excludes Bool)) 
-   :local () 
-   :init true 
-   :trans true 
-   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
 (define-system synapse 
    :input ((e_s1 Bool) (e_s2 Bool) (e_s3 Bool) (init_invalid_s Int)) 
    :output ((invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (garde_s1 Bool) (garde_s2 Bool) (garde_s3 Bool) (flby Int) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (flby2 Int) (ite7 Int) (ite8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby3 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (ite17 Int) (ite18 Int) (flby4 Int)) 

@@ -6,13 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' First) 
    :inv (= First flby) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (and _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system excludes3 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
    :output ((excludes Bool)) 
@@ -20,6 +13,13 @@
    :init true 
    :trans true 
    :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system _PRODUCER_CONSUMMER_ 
    :input ((etat1 Bool) (etat2 Bool) (etat3 Bool) (a_init Int)) 
    :output ((i Int) (b Int) (a Int) (o1 Int) (o2 Int) (garde1 Bool) (garde2 Bool) (garde3 Bool) (ite Int) (ite2 Int) (flby Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (ite7 Int) (flby2 Int) (flby3 Int) (ite8 Int) (ite9 Int) (flby4 Int) (ite10 Int) (ite11 Int) (flby5 Int)) 

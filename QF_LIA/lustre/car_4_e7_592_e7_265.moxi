@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (or _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system excludes2 
    :input ((_X1_ Bool) (_X2_ Bool)) 
    :output ((excludes Bool)) 
@@ -13,6 +6,13 @@
    :init true 
    :trans true 
    :inv (= excludes (not (or _X1_ _X2_))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (or _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system voiture 
    :input ((m Bool) (s Bool)) 
    :output ((toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (ite Int) (flby4 Int) (ite2 Int) (ite3 Int) (flby5 Int) (ite4 Int) (flby6 Int)) 

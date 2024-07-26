@@ -6,20 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' First) 
    :inv (= First flby) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (and _X_' Sofar)) 
-   :inv (= Sofar flby) )
-(define-system excludes3 
-   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
-   :output ((excludes Bool)) 
-   :local () 
-   :init true 
-   :trans true 
-   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
 (define-system synapse 
    :input ((e_s1 Bool) (e_s2 Bool) (e_s3 Bool) (init_invalid_s Int)) 
    :output ((invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (garde_s1 Bool) (garde_s2 Bool) (garde_s3 Bool) (flby Int) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (flby2 Int) (ite7 Int) (ite8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby3 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (ite17 Int) (ite18 Int) (flby4 Int)) 
@@ -27,6 +13,20 @@
    :init (and (and (and (and (and (and (and (and (=> e_s3 (= ite4 ite3)) (=> garde_s2 (= ite8 0))) (=> garde_s3 (= ite9 0))) (=> e_s3 (= ite10 ite9))) (=> garde_s1 (= ite13 0))) (=> garde_s2 (= ite14 1))) (=> garde_s3 (= ite15 1))) (=> e_s3 (= ite16 ite15))) (= flby init_invalid_s) (= flby2 mem_init_s) (= flby3 0) (= flby4 0)) 
    :trans (and (and (and (and (and (and (and (and (and (and (and (and (and (=> garde_s1' (= ite' (- (- invalid_s dirty_s) 1))) (=> (not garde_s1') (= ite' invalid_s))) (and (=> garde_s2' (= ite2' (- (+ (+ invalid_s dirty_s) valid_s) 1))) (=> (not garde_s2') (= ite2' invalid_s)))) (and (=> garde_s3' (= ite3' (- (+ (+ invalid_s dirty_s) valid_s) 1))) (=> (not garde_s3') (= ite3' invalid_s)))) (and (=> e_s3' (= ite4' ite3')) (=> (not e_s3') (= ite4' invalid_s)))) (and (=> garde_s1' (= ite7' (+ valid_s 1))) (=> (not garde_s1') (= ite7' valid_s)))) (and (=> garde_s2' (= ite8' 0)) (=> (not garde_s2') (= ite8' valid_s)))) (and (=> garde_s3' (= ite9' 0)) (=> (not garde_s3') (= ite9' valid_s)))) (and (=> e_s3' (= ite10' ite9')) (=> (not e_s3') (= ite10' valid_s)))) (and (=> garde_s1' (= ite13' 0)) (=> (not garde_s1') (= ite13' dirty_s)))) (and (=> garde_s2' (= ite14' 1)) (=> (not garde_s2') (= ite14' dirty_s)))) (and (=> garde_s3' (= ite15' 1)) (=> (not garde_s3') (= ite15' dirty_s)))) (and (=> e_s3' (= ite16' ite15')) (=> (not e_s3') (= ite16' dirty_s)))) (= garde_s1' (>= invalid_s 1)) (= garde_s2' (>= valid_s 1)) (= garde_s3' (>= invalid_s 1)) (= flby' mem_init_s) (= flby2' ite6') (= flby3' ite12') (= flby4' ite18')) 
    :inv (and (and (and (and (and (and (and (=> e_s2 (= ite5 ite2)) (=> (not e_s2) (= ite5 ite4))) (and (=> e_s1 (= ite6 ite)) (=> (not e_s1) (= ite6 ite5)))) (and (=> e_s2 (= ite11 ite8)) (=> (not e_s2) (= ite11 ite10)))) (and (=> e_s1 (= ite12 ite7)) (=> (not e_s1) (= ite12 ite11)))) (and (=> e_s2 (= ite17 ite14)) (=> (not e_s2) (= ite17 ite16)))) (and (=> e_s1 (= ite18 ite13)) (=> (not e_s1) (= ite18 ite17)))) (= invalid_s flby2) (= valid_s flby3) (= dirty_s flby4) (= mem_init_s flby)) )
+(define-system excludes3 
+   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X2_ _X3_)))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system main 
    :input () 
    :output ((param_e_s3 Bool) (param_init_invalid_s Int) (_OK_ Bool) (invalid_s Int) (valid_s Int) (dirty_s Int) (mem_init_s Int) (_R1_ Bool) (_R2_ Bool) (_R3_ Bool) (env Bool) (flby Bool) (param_e_s1 Bool) (param_e_s2 Bool)) 

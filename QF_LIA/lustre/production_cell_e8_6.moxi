@@ -1,4 +1,3 @@
-(set-logic QF_LIA)
 (define-system redge 
    :input ((signal Bool)) 
    :output ((r Bool) (flby Bool)) 

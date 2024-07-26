@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system intloop6counter 
-   :input ((x Bool)) 
-   :output ((out Bool) (time Int) (ite Int) (ite2 Int) (ite3 Int) (flby Int)) 
-   :local () 
-   :init (= flby 0) 
-   :trans (and (and (and (and (=> (not x) (= ite' 3)) (=> (not (not x)) (= ite' 5))) (and (=> (= time 4) (= ite2' ite')) (=> (not (= time 4)) (= ite2' (+ time 1))))) (and (=> (= time 5) (= ite3' 2)) (=> (not (= time 5)) (= ite3' ite2')))) (= flby' ite3')) 
-   :inv (and (= out (= time 5)) (= time flby)) )
 (define-system loop6counter 
    :input ((x Bool)) 
    :output ((out Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
@@ -13,6 +6,13 @@
    :init (and (= flby false) (= flby2 false) (= flby3 false)) 
    :trans (and (= flby' (or (and b c) (and (and x a) (not c)))) (= flby2' (or (or (and (not b) c) (and b (not c))) (and (not x) a))) (= flby3' (not c))) 
    :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
+(define-system intloop6counter 
+   :input ((x Bool)) 
+   :output ((out Bool) (time Int) (ite Int) (ite2 Int) (ite3 Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (and (and (=> (not x) (= ite' 3)) (=> (not (not x)) (= ite' 5))) (and (=> (= time 4) (= ite2' ite')) (=> (not (= time 4)) (= ite2' (+ time 1))))) (and (=> (= time 5) (= ite3' 2)) (=> (not (= time 5)) (= ite3' ite2')))) (= flby' ite3')) 
+   :inv (and (= out (= time 5)) (= time flby)) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 

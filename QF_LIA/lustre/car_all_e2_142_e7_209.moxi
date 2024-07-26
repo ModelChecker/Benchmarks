@@ -6,13 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' (or _X_' Sofar)) 
    :inv (= Sofar flby) )
-(define-system excludes2 
-   :input ((_X1_ Bool) (_X2_ Bool)) 
-   :output ((excludes Bool)) 
-   :local () 
-   :init true 
-   :trans true 
-   :inv (= excludes (not (and _X1_ _X2_))) )
 (define-system voiture 
    :input ((m Bool) (s Bool)) 
    :output ((toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (ite Int) (flby4 Int) (ite2 Int) (ite3 Int) (flby5 Int) (ite4 Int) (flby6 Int)) 
@@ -20,6 +13,13 @@
    :init (and (= flby false) (= flby2 false) (= flby3 true) (= flby4 0) (= flby5 0) (= flby6 0)) 
    :trans (and (and (and (and (=> (and move' meter') (= ite' (+ dist 1))) (=> (not (and move' meter')) (= ite' dist))) (and (=> (and move' meter') (= ite2' (+ (- speed 1) 1))) (=> (not (and move' meter')) (= ite2' speed)))) (and (=> second' (= ite4' (+ time 1))) (=> (not second') (= ite4' time)))) (= flby' (and m' (not s'))) (= flby2' s') (= flby3' (and (and (and move (not stop)) (not toofast)) (not bump))) (= flby4' ite') (= flby5' ite3') (= flby6' ite4')) 
    :inv (and (and (=> (or (not move) second) (= ite3 0)) (=> (not (or (not move) second)) (= ite3 ite2))) (= toofast (>= speed 3)) (= stop (>= time 4)) (= bump (= dist 10)) (= dist flby4) (= speed flby5) (= time flby6) (= move flby3) (= second flby2) (= meter flby)) )
+(define-system excludes2 
+   :input ((_X1_ Bool) (_X2_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (not (and _X1_ _X2_))) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (toofast Bool) (stop Bool) (bump Bool) (dist Int) (speed Int) (time Int) (move Bool) (second Bool) (meter Bool) (env Bool) (param_m Bool) (param_s Bool)) 

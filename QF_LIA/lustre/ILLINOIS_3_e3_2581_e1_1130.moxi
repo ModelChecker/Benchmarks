@@ -6,13 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' First) 
    :inv (= First flby) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (and _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system excludes9 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool) (_X5_ Bool) (_X6_ Bool) (_X7_ Bool) (_X8_ Bool) (_X9_ Bool)) 
    :output ((excludes Bool)) 
@@ -20,6 +13,13 @@
    :init true 
    :trans true 
    :inv (= excludes (or (or (or (or (or (or (or (or (or (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_)) (and (and (and (and (and (and (and (and _X1_ (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) _X3_) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) _X4_) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) _X5_) (not _X6_)) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) _X6_) (not _X7_)) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) _X7_) (not _X8_)) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) _X8_) (not _X9_))) (and (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) _X9_))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system illinois 
    :input ((e1 Bool) (e2 Bool) (e3 Bool) (e4 Bool) (e5 Bool) (e6 Bool) (e7 Bool) (e8 Bool) (e9 Bool) (init_invalid Int)) 
    :output ((invalid Int) (dirty Int) (exclusive Int) (shared Int) (g1 Bool) (g2 Bool) (g3 Bool) (g4 Bool) (g5 Bool) (g6 Bool) (g7 Bool) (g8 Bool) (g9 Bool) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (ite7 Int) (ite8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (ite17 Int) (flby Int) (ite18 Int) (ite19 Int) (ite20 Int) (ite21 Int) (ite22 Int) (ite23 Int) (ite24 Int) (ite25 Int) (ite26 Int) (ite27 Int) (flby2 Int) (ite28 Int) (ite29 Int) (ite30 Int) (ite31 Int) (ite32 Int) (ite33 Int) (ite34 Int) (ite35 Int) (ite36 Int) (ite37 Int) (flby3 Int) (ite38 Int) (ite39 Int) (ite40 Int) (ite41 Int) (ite42 Int) (ite43 Int) (ite44 Int) (ite45 Int) (ite46 Int) (ite47 Int) (flby4 Int)) 

@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((_Y_ Bool) (flby Bool)) 
-   :local () 
-   :init (= flby true) 
-   :trans (= flby' _Y_) 
-   :inv (= _Y_ (and flby _X_)) )
 (define-system Store 
    :input ((Delta Int)) 
    :output ((Total Int) (Prev Int) (flby Int) (ite Int) (ite2 Int)) 
@@ -13,6 +6,13 @@
    :init (= flby 0) 
    :trans (= flby' Total) 
    :inv (and (and (and (=> (and (> Delta 0) (> Prev 10)) (= ite (+ Prev Delta))) (=> (not (and (> Delta 0) (> Prev 10))) (= ite Prev))) (and (=> (and (> Delta 0) (> Prev 0)) (= ite2 (+ Prev Delta))) (=> (not (and (> Delta 0) (> Prev 0))) (= ite2 ite)))) (= Total ite2) (= Prev flby)) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((_Y_ Bool) (flby Bool)) 
+   :local () 
+   :init (= flby true) 
+   :trans (= flby' _Y_) 
+   :inv (= _Y_ (and flby _X_)) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (Total Int) (param_Delta Int)) 

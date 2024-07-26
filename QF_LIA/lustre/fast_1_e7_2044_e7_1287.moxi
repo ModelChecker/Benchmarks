@@ -38,13 +38,6 @@
    :subsys (call_one_button (one_button call_one_button.ccseti call_one_button.ccsetd call_one_button.ccr call_one_button.ob))
    :subsys (call_PosEdge (PosEdge call_PosEdge._X_ call_PosEdge._Y_ call_PosEdge.flby))
    :subsys (call_AtLeastOnceSince (AtLeastOnceSince call_AtLeastOnceSince._X_ call_AtLeastOnceSince._Y_ call_AtLeastOnceSince.XsinceY call_AtLeastOnceSince.flby call_AtLeastOnceSince.ite)))
-(define-system MoreThanTwoSec 
-   :input ((_X_ Bool)) 
-   :output ((_Y_ Bool) (flby Bool) (flby2 Bool)) 
-   :local () 
-   :init (and (= flby false) (= flby2 false)) 
-   :trans (and (= flby' (and _X_ _X_')) (= flby2' (and flby _X_'))) 
-   :inv (= _Y_ flby2) )
 (define-system MoreThanOneSec 
    :input ((_X_ Bool)) 
    :output ((_Y_ Bool) (flby Bool)) 
@@ -52,6 +45,13 @@
    :init (= flby false) 
    :trans (= flby' (and _X_ _X_')) 
    :inv (= _Y_ flby) )
+(define-system MoreThanTwoSec 
+   :input ((_X_ Bool)) 
+   :output ((_Y_ Bool) (flby Bool) (flby2 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false)) 
+   :trans (and (= flby' (and _X_ _X_')) (= flby2' (and flby _X_'))) 
+   :inv (= _Y_ flby2) )
 (define-system cc_allowed 
    :input ((ccont Bool) (igsw Bool) (bpa Bool) (cccanc Bool) (battok Bool) (gearok Bool) (qfok Bool) (sdok Bool) (accok Bool) (vs Int)) 
    :output ((ccall Bool)) 
@@ -73,7 +73,7 @@
    :output ((ccont Bool) (cca Bool) (ccall Bool) (ite Bool) (ite2 Bool) (flby Bool) (param Bool) (ite3 Bool) (ite4 Bool) (flby2 Bool)) 
    :local ((call_Edge._X_ Bool) (call_Edge._Y_ Bool) (call_Edge.flby Bool) (call_PosEdge._X_ Bool) (call_PosEdge._Y_ Bool) (call_PosEdge.flby Bool) (call_PosEdge2._X_ Bool) (call_PosEdge2._Y_ Bool) (call_PosEdge2.flby Bool) (call_cc_allowed.ccont Bool) (call_cc_allowed.igsw Bool) (call_cc_allowed.bpa Bool) (call_cc_allowed.cccanc Bool) (call_cc_allowed.battok Bool) (call_cc_allowed.gearok Bool) (call_cc_allowed.qfok Bool) (call_cc_allowed.sdok Bool) (call_cc_allowed.accok Bool) (call_cc_allowed.vs Int) (call_cc_allowed.ccall Bool) (call_one_button_accept.ccseti Bool) (call_one_button_accept.ccsetd Bool) (call_one_button_accept.ccr Bool) (call_one_button_accept.ccont Bool) (call_one_button_accept.cca Bool) (call_one_button_accept.oba Bool) (call_one_button_accept.ob Bool) (call_one_button_accept.pnb Bool) (call_one_button_accept.ite Bool) (call_one_button_accept.ite2 Bool)) 
    :init (and (=> (not ccall) (= ite3 false)) (= flby false) (= flby2 false)) 
-   :trans (and (and (and (and (=> (and (not ccont) call_PosEdge2._Y_') (= ite' true)) (=> (not (and (not ccont) call_PosEdge2._Y_')) (= ite' ccont))) (and (=> (or (or call_Edge._Y_' ccd') (and ccont call_PosEdge._Y_')) (= ite2' false)) (=> (not (or (or call_Edge._Y_' ccd') (and ccont call_PosEdge._Y_'))) (= ite2' ite')))) (and (=> (not ccall') (= ite3' false)) (=> (not (not ccall')) (= ite3' cca)))) (= flby' ite2') (= param' cca) (= flby2' ite4')) 
+   :trans (and (and (and (and (=> (and (not ccont) call_PosEdge2._Y_) (= ite' true)) (=> (not (and (not ccont) call_PosEdge2._Y_)) (= ite' ccont))) (and (=> (or (or call_Edge._Y_ ccd') (and ccont call_PosEdge._Y_)) (= ite2' false)) (=> (not (or (or call_Edge._Y_ ccd') (and ccont call_PosEdge._Y_))) (= ite2' ite')))) (and (=> (not ccall') (= ite3' false)) (=> (not (not ccall')) (= ite3' cca)))) (= flby' ite2') (= param' cca) (= flby2' ite4')) 
    :inv (and (and (=> (and call_one_button_accept.oba ccall) (= ite4 true)) (=> (not (and call_one_button_accept.oba ccall)) (= ite4 ite3))) (= ccont flby) (= cca flby2) (= ccall call_cc_allowed.ccall) (= call_Edge._X_ igsw) (= call_PosEdge._X_ cconoff) (= call_PosEdge2._X_ cconoff) (= call_cc_allowed.ccont ccont) (= call_cc_allowed.igsw igsw) (= call_cc_allowed.bpa bpa) (= call_cc_allowed.cccanc cccanc) (= call_cc_allowed.battok battok) (= call_cc_allowed.gearok gearok) (= call_cc_allowed.qfok qfok) (= call_cc_allowed.sdok sdok) (= call_cc_allowed.accok accok) (= call_cc_allowed.vs vs) (= call_one_button_accept.ccseti ccseti) (= call_one_button_accept.ccsetd ccsetd) (= call_one_button_accept.ccr ccr) (= call_one_button_accept.ccont ccont) (= call_one_button_accept.cca param)) 
    :subsys (call_Edge (Edge call_Edge._X_ call_Edge._Y_ call_Edge.flby))
    :subsys (call_PosEdge (PosEdge call_PosEdge._X_ call_PosEdge._Y_ call_PosEdge.flby))

@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system bool6 
-   :input ((x Bool)) 
-   :output ((out Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
-   :local () 
-   :init (and (= flby false) (= flby2 false) (= flby3 false)) 
-   :trans (and (= flby' (not a)) (= flby2' (or (and (and (not c) (not b)) a) (and b (not a)))) (= flby3' (and (and c (not a)) (and b a)))) 
-   :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
 (define-system int6I 
    :input ((x Bool)) 
    :output ((out Bool) (time Int) (ite Int) (flby Int)) 
@@ -13,6 +6,13 @@
    :init (= flby 0) 
    :trans (and (and (=> (= time 5) (= ite' 1)) (=> (not (= time 5)) (= ite' (+ (- time 1) 1)))) (= flby' ite')) 
    :inv (and (= out (= time 5)) (= time flby)) )
+(define-system bool6 
+   :input ((x Bool)) 
+   :output ((out Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false) (= flby3 false)) 
+   :trans (and (= flby' (not a)) (= flby2' (or (and (and (not c) (not b)) a) (and b (not a)))) (= flby3' (and (and c (not a)) (and b a)))) 
+   :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (a Bool) (b Bool) (param_x Bool)) 

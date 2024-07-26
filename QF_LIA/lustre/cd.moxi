@@ -13,13 +13,6 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
-(define-system Environment 
-   :input ((diff Int) (plus Bool) (minus Bool)) 
-   :output ((ok Bool) (flby Bool) (ite Bool) (flby2 Bool) (ite2 Bool)) 
-   :local () 
-   :init (and (= flby true) (= flby2 false)) 
-   :trans (and (= flby' plus) (= flby2' minus)) 
-   :inv (and (and (and (=> flby (= ite (>= diff 1))) (=> (not flby) (= ite true))) (and (=> flby2 (= ite2 (<= diff (- 1)))) (=> (not flby2) (= ite2 true)))) (= ok (and (and (and (<= (- 4) diff) (<= diff 4)) ite) ite2))) )
 (define-system Controller 
    :input ((diff Int)) 
    :output ((speed Int) (plus Bool) (minus Bool) (flby Int)) 
@@ -27,6 +20,13 @@
    :init (= flby 0) 
    :trans (= flby' (+ speed diff')) 
    :inv (and (= speed flby) (= plus (<= speed 9)) (= minus (>= speed 11))) )
+(define-system Environment 
+   :input ((diff Int) (plus Bool) (minus Bool)) 
+   :output ((ok Bool) (flby Bool) (ite Bool) (flby2 Bool) (ite2 Bool)) 
+   :local () 
+   :init (and (= flby true) (= flby2 false)) 
+   :trans (and (= flby' plus) (= flby2' minus)) 
+   :inv (and (and (and (=> flby (= ite (>= diff 1))) (=> (not flby) (= ite true))) (and (=> flby2 (= ite2 (<= diff (- 1)))) (=> (not flby2) (= ite2 true)))) (= ok (and (and (and (<= (- 4) diff) (<= diff 4)) ite) ite2))) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (speed Int) (plus Bool) (minus Bool) (realistic Bool) (param_diff Int)) 

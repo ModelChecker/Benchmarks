@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system intloopcounter 
-   :input ((x Bool)) 
-   :output ((out Bool) (time Int) (ite Int) (flby Int)) 
-   :local () 
-   :init (= flby 0) 
-   :trans (and (and (=> (= time 3) (= ite' 0)) (=> (not (= time 3)) (= ite' (- time 1)))) (= flby' ite')) 
-   :inv (and (= out (= time 2)) (= time flby)) )
 (define-system greycounter 
    :input ((x Bool)) 
    :output ((out Bool) (a Bool) (b Bool) (flby Bool) (flby2 Bool)) 
@@ -13,6 +6,13 @@
    :init (and (= flby false) (= flby2 false)) 
    :trans (and (= flby' (not b)) (= flby2' a)) 
    :inv (and (= out (and a b)) (= a flby) (= b flby2)) )
+(define-system intloopcounter 
+   :input ((x Bool)) 
+   :output ((out Bool) (time Int) (ite Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (=> (= time 3) (= ite' 0)) (=> (not (= time 3)) (= ite' (- time 1)))) (= flby' ite')) 
+   :inv (and (= out (= time 2)) (= time flby)) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (b Bool) (d Bool) (param_x Bool)) 

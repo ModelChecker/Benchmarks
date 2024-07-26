@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system First 
-   :input ((_X_ Int)) 
-   :output ((First Int) (flby Int)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' First) 
-   :inv (= First flby) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -20,6 +13,13 @@
    :init true 
    :trans true 
    :inv (= excludes (or (or (or (or (or (or (or (or (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_)) (and (and (and (and (and (and (and _X1_ (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) _X3_) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) _X4_) (not _X5_)) (not _X6_)) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) _X5_) (not _X6_)) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) _X6_) (not _X7_)) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) _X7_) (not _X8_))) (and (and (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_)) (not _X7_)) _X8_))) )
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
 (define-system firefly 
    :input ((e1 Bool) (e2 Bool) (e3 Bool) (e4 Bool) (e5 Bool) (e6 Bool) (e7 Bool) (e8 Bool) (i_invalid Int)) 
    :output ((invalid Int) (dirty Int) (exclusive Int) (shared Int) (garde1 Bool) (garde2 Bool) (garde3 Bool) (garde4 Bool) (garde5 Bool) (garde6 Bool) (garde7 Bool) (garde8 Bool) (mem_invalid Int) (flby Int) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (ite7 Int) (ite8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby2 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (ite17 Int) (ite18 Int) (ite19 Int) (ite20 Int) (flby3 Int) (ite21 Int) (ite22 Int) (ite23 Int) (ite24 Int) (ite25 Int) (ite26 Int) (ite27 Int) (ite28 Int) (ite29 Int) (ite30 Int) (flby4 Int) (ite31 Int) (ite32 Int) (ite33 Int) (ite34 Int) (ite35 Int) (ite36 Int) (ite37 Int) (ite38 Int) (ite39 Int) (ite40 Int) (flby5 Int)) 

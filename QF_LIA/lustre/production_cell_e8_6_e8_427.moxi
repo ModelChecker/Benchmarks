@@ -1,4 +1,3 @@
-(set-logic QF_LIA)
 (define-system redge 
    :input ((signal Bool)) 
    :output ((r Bool) (flby Bool)) 
@@ -6,6 +5,13 @@
    :init (= flby signal) 
    :trans (= flby' (and signal' (not signal))) 
    :inv (= r flby) )
+(define-system sustain 
+   :input ((on Bool) (off Bool)) 
+   :output ((s Bool) (ite Bool) (ite2 Bool) (flby Bool)) 
+   :local () 
+   :init (and (=> off (= ite false)) (= flby on)) 
+   :trans (and (and (=> off' (= ite' false)) (=> (not off') (= ite' s))) (= flby' ite2')) 
+   :inv (and (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite))) (= s flby)) )
 (define-system fedge 
    :input ((signal Bool)) 
    :output ((f Bool)) 
@@ -14,13 +20,6 @@
    :trans true 
    :inv (and (= f call_redge.r) (= call_redge.signal (not signal))) 
    :subsys (call_redge (redge call_redge.signal call_redge.r call_redge.flby)))
-(define-system sustain 
-   :input ((on Bool) (off Bool)) 
-   :output ((s Bool) (ite Bool) (ite2 Bool) (flby Bool)) 
-   :local () 
-   :init (and (=> off (= ite false)) (= flby on)) 
-   :trans (and (and (=> off' (= ite' false)) (=> (not off') (= ite' s))) (= flby' ite2')) 
-   :inv (and (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite))) (= s flby)) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (MayMove1 Bool) (MayMove2 Bool) (start1 Bool) (start2 Bool) (stop Bool) (moving Bool) (flby Bool) (flby2 Bool) (ite Bool) (ite2 Bool) (flby3 Bool) (param_MaySafelyMove Bool) (param_TryToMove1 Bool) (param_TryToMove2 Bool)) 

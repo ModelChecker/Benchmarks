@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Age 
-   :input ((p Bool)) 
-   :output ((age_of_p Int) (ite Int) (flby Int)) 
-   :local () 
-   :init (= flby 0) 
-   :trans (and (and (=> p (= ite' (- (+ age_of_p 1) 1))) (=> (not p) (= ite' 0))) (= flby' ite')) 
-   :inv (= age_of_p flby) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -13,6 +6,13 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
+(define-system Age 
+   :input ((p Bool)) 
+   :output ((age_of_p Int) (ite Int) (flby Int)) 
+   :local () 
+   :init (= flby 0) 
+   :trans (and (and (=> p (= ite' (- (+ age_of_p 1) 1))) (=> (not p) (= ite' 0))) (= flby' ite')) 
+   :inv (= age_of_p flby) )
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (k Int) (env Bool) (flby Int) (param_k0 Int) (param_p Bool) (param_q Bool) (param_r Bool) (param_t Bool)) 

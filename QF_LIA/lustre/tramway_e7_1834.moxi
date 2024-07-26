@@ -1,4 +1,3 @@
-(set-logic QF_LIA)
 (define-system switch 
    :input ((_init_ Bool) (on Bool) (off Bool)) 
    :output ((value Bool) (flby Bool) (ite Bool) (ite2 Bool)) 

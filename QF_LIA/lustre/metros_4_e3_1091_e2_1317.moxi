@@ -6,13 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
-(define-system controleur 
-   :input ((nB Int) (nS Int)) 
-   :output ((diff Int) (avance Bool) (retard Bool) (ite Bool) (flby Bool) (ite2 Bool) (flby2 Bool)) 
-   :local () 
-   :init (and (= flby false) (= flby2 false)) 
-   :trans (and (and (and (=> (not avance) (= ite' (>= diff' 10))) (=> (not (not avance)) (= ite' (> diff' 0)))) (and (=> (not retard) (= ite2' (<= diff' (- 10)))) (=> (not (not retard)) (= ite2' (> diff' 0))))) (= flby' ite') (= flby2' ite2')) 
-   :inv (and (= diff (- nB nS)) (= avance flby) (= retard flby2)) )
 (define-system hypothese 
    :input ((_B_ Bool) (_S_ Bool) (avance Bool) (retard Bool)) 
    :output ((ok Bool) (c Int) (ite Bool) (ite2 Bool) (flby Bool) (ite3 Int) (ite4 Int) (flby2 Int)) 
@@ -20,6 +13,13 @@
    :init (and (= flby true) (= flby2 0)) 
    :trans (and (and (and (and (and (=> retard (= ite' (not _S_'))) (=> (not retard) (= ite' true))) (and (=> (>= c 9) (= ite2' (not _B_'))) (=> (not (>= c 9)) (= ite2' true)))) (and (=> _B_' (= ite3' (- c 1))) (=> (not _B_') (= ite3' c)))) (and (=> (and avance avance') (= ite4' ite3')) (=> (not (and avance avance')) (= ite4' 0)))) (= flby' (and ite' ite2')) (= flby2' ite4')) 
    :inv (and (= ok flby) (= c flby2)) )
+(define-system controleur 
+   :input ((nB Int) (nS Int)) 
+   :output ((diff Int) (avance Bool) (retard Bool) (ite Bool) (flby Bool) (ite2 Bool) (flby2 Bool)) 
+   :local () 
+   :init (and (= flby false) (= flby2 false)) 
+   :trans (and (and (and (=> (not avance) (= ite' (>= diff' 10))) (=> (not (not avance)) (= ite' (> diff' 0)))) (and (=> (not retard) (= ite2' (<= diff' (- 10)))) (=> (not (not retard)) (= ite2' (> diff' 0))))) (= flby' ite') (= flby2' ite2')) 
+   :inv (and (= diff (- nB nS)) (= avance flby) (= retard flby2)) )
 (define-system _main_ 
    :input ((_B0_ Bool) (_B1_ Bool) (_S_ Bool)) 
    :output ((ast Bool) (nB0 Int) (nB1 Int) (nS Int) (diff0 Int) (diff1 Int) (avance0 Bool) (avance1 Bool) (retard0 Bool) (retard1 Bool) (_H0_ Bool) (_H1_ Bool) (ite Int) (flby Int) (ite2 Int) (flby2 Int) (ite3 Int) (flby3 Int)) 

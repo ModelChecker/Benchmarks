@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system First 
-   :input ((_X_ Int)) 
-   :output ((First Int) (flby Int)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' First) 
-   :inv (= First flby) )
 (define-system Sofar 
    :input ((_X_ Bool)) 
    :output ((Sofar Bool) (flby Bool)) 
@@ -13,6 +6,13 @@
    :init (= flby _X_) 
    :trans (= flby' (and _X_' Sofar)) 
    :inv (= Sofar flby) )
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
 (define-system excludes12 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool) (_X5_ Bool) (_X6_ Bool) (_X7_ Bool) (_X8_ Bool) (_X9_ Bool) (_X10_ Bool) (_X11_ Bool) (_X12_ Bool)) 
    :output ((excludes Bool)) 

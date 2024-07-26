@@ -1,25 +1,4 @@
 (set-logic QF_LIA)
-(define-system First 
-   :input ((_X_ Int)) 
-   :output ((First Int) (flby Int)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' First) 
-   :inv (= First flby) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (or _X_' Sofar)) 
-   :inv (= Sofar flby) )
-(define-system excludes6 
-   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool) (_X5_ Bool) (_X6_ Bool)) 
-   :output ((excludes Bool)) 
-   :local () 
-   :init true 
-   :trans true 
-   :inv (= excludes (or (or (or (or (or (or (or (not _X1_) (and (and (and (and (not _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and _X1_ (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) _X3_) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) _X4_) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) _X5_) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) _X6_))) )
 (define-system swimingpool 
    :input ((e1 Bool) (e2 Bool) (e3 Bool) (e4 Bool) (e5 Bool) (e6 Bool) (init_p1 Int) (init_p2 Int)) 
    :output ((x1 Int) (x2 Int) (x3 Int) (x4 Int) (x5 Int) (x6 Int) (x7 Int) (p1 Int) (p2 Int) (g1 Bool) (g2 Bool) (g3 Bool) (g4 Bool) (g5 Bool) (g6 Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (flby4 Bool) (flby5 Bool) (flby6 Bool) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (flby7 Int) (ite5 Int) (ite6 Int) (ite7 Int) (ite8 Int) (flby8 Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (flby9 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (flby10 Int) (ite17 Int) (ite18 Int) (ite19 Int) (ite20 Int) (flby11 Int) (ite21 Int) (ite22 Int) (ite23 Int) (ite24 Int) (ite25 Int) (ite26 Int) (ite27 Int) (ite28 Int) (flby12 Int) (ite29 Int) (ite30 Int) (ite31 Int) (ite32 Int) (flby13 Int) (flby14 Int) (flby15 Int)) 
@@ -27,6 +6,27 @@
    :init (and (and (and (and (and (and (and (=> e2 (= ite3 ite2)) (=> e3 (= ite7 ite6))) (=> e4 (= ite11 ite10))) (=> e5 (= ite15 ite14))) (=> e6 (= ite19 ite18))) (=> e6 (= ite25 ite24))) (=> e5 (= ite31 ite30))) (= flby false) (= flby2 false) (= flby3 false) (= flby4 false) (= flby5 false) (= flby6 false) (= flby7 0) (= flby8 0) (= flby9 0) (= flby10 0) (= flby11 0) (= flby12 p1) (= flby13 p2) (= flby14 init_p1) (= flby15 init_p2)) 
    :trans (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (=> g1' (= ite' (+ x1 1))) (=> (not g1') (= ite' x1))) (and (=> g2' (= ite2' (- x1 1))) (=> (not g2') (= ite2' x1)))) (and (=> e2' (= ite3' ite2')) (=> (not e2') (= ite3' x1)))) (and (=> g2' (= ite5' (+ x2 1))) (=> (not g2') (= ite5' x2)))) (and (=> g3' (= ite6' (- x2 1))) (=> (not g3') (= ite6' x2)))) (and (=> e3' (= ite7' ite6')) (=> (not e3') (= ite7' x2)))) (and (=> g3' (= ite9' (+ x3 1))) (=> (not g3') (= ite9' x3)))) (and (=> g4' (= ite10' (- x3 1))) (=> (not g4') (= ite10' x3)))) (and (=> e4' (= ite11' ite10')) (=> (not e4') (= ite11' x3)))) (and (=> g4' (= ite13' (+ x4 1))) (=> (not g4') (= ite13' x4)))) (and (=> g4' (= ite14' (- x4 1))) (=> (not g4') (= ite14' x4)))) (and (=> e5' (= ite15' ite14')) (=> (not e5') (= ite15' x4)))) (and (=> g5' (= ite17' (+ x5 1))) (=> (not g5') (= ite17' x5)))) (and (=> g6' (= ite18' (- x5 1))) (=> (not g6') (= ite18' x5)))) (and (=> e6' (= ite19' ite18')) (=> (not e6') (= ite19' x5)))) (and (=> g1' (= ite21' (- x6 1))) (=> (not g1') (= ite21' x6)))) (and (=> g3' (= ite22' (+ x6 1))) (=> (not g3') (= ite22' x6)))) (and (=> g4' (= ite23' (- x6 1))) (=> (not g4') (= ite23' x6)))) (and (=> g6' (= ite24' (+ x6 1))) (=> (not g6') (= ite24' x6)))) (and (=> e6' (= ite25' ite24')) (=> (not e6') (= ite25' x6)))) (and (=> g2' (= ite29' (- x7 1))) (=> (not g2') (= ite29' x7)))) (and (=> g5' (= ite30' (+ x7 1))) (=> (not g5') (= ite30' x7)))) (and (=> e5' (= ite31' ite30')) (=> (not e5') (= ite31' x7)))) (= flby' (>= x6 1)) (= flby2' (and (>= x1 1) (>= x7 1))) (= flby3' (>= x2 1)) (= flby4' (and (>= x3 1) (>= x6 1))) (= flby5' (>= x4 1)) (= flby6' (>= x5 1)) (= flby7' ite4') (= flby8' ite8') (= flby9' ite12') (= flby10' ite16') (= flby11' ite20') (= flby12' ite28') (= flby13' ite32') (= flby14' p1) (= flby15' p2)) 
    :inv (and (and (and (and (and (and (and (and (and (and (=> e1 (= ite4 ite)) (=> (not e1) (= ite4 ite3))) (and (=> e2 (= ite8 ite5)) (=> (not e2) (= ite8 ite7)))) (and (=> e3 (= ite12 ite9)) (=> (not e3) (= ite12 ite11)))) (and (=> e4 (= ite16 ite13)) (=> (not e4) (= ite16 ite15)))) (and (=> e5 (= ite20 ite17)) (=> (not e5) (= ite20 ite19)))) (and (=> e4 (= ite26 ite23)) (=> (not e4) (= ite26 ite25)))) (and (=> e3 (= ite27 ite22)) (=> (not e3) (= ite27 ite26)))) (and (=> e1 (= ite28 ite21)) (=> (not e1) (= ite28 ite27)))) (and (=> e2 (= ite32 ite29)) (=> (not e2) (= ite32 ite31)))) (= x1 flby7) (= x2 flby8) (= x3 flby9) (= x4 flby10) (= x5 flby11) (= x6 flby12) (= x7 flby13) (= p1 flby14) (= p2 flby15) (= g1 flby) (= g2 flby2) (= g3 flby3) (= g4 flby4) (= g5 flby5) (= g6 flby6)) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (or _X_' Sofar)) 
+   :inv (= Sofar flby) )
+(define-system First 
+   :input ((_X_ Int)) 
+   :output ((First Int) (flby Int)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' First) 
+   :inv (= First flby) )
+(define-system excludes6 
+   :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool) (_X5_ Bool) (_X6_ Bool)) 
+   :output ((excludes Bool)) 
+   :local () 
+   :init true 
+   :trans true 
+   :inv (= excludes (or (or (or (or (or (or (or (not _X1_) (and (and (and (and (not _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and _X1_ (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) _X2_) (not _X3_)) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) _X3_) (not _X4_)) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) _X4_) (not _X5_)) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) _X5_) (not _X6_))) (and (and (and (and (and (not _X1_) (not _X2_)) (not _X3_)) (not _X4_)) (not _X5_)) _X6_))) )
 (define-system main 
    :input () 
    :output ((x3 Int) (x4 Int) (x5 Int) (x6 Int) (param_init_p2 Int) (x7 Int) (p1 Int) (p2 Int) (env Bool) (param_e1 Bool) (param_e2 Bool) (param_e3 Bool) (param_e4 Bool) (param_e5 Bool) (param_e6 Bool) (param_init_p1 Int) (_OK_ Bool) (x1 Int) (x2 Int)) 

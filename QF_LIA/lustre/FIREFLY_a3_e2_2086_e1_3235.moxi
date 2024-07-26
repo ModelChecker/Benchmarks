@@ -6,13 +6,6 @@
    :init (= flby _X_) 
    :trans (= flby' First) 
    :inv (= First flby) )
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (and _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system excludes8 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool) (_X5_ Bool) (_X6_ Bool) (_X7_ Bool) (_X8_ Bool)) 
    :output ((excludes Bool)) 
@@ -27,6 +20,13 @@
    :init (and (and (and (and (and (and (and (=> e8 (= ite7 ite6)) (=> garde6 (= ite15 1))) (=> e7 (= ite17 ite16))) (=> garde3 (= ite22 0))) (=> garde8 (= ite25 0))) (=> e8 (= ite26 ite25))) (=> e8 (= ite36 ite35))) (= flby i_invalid) (= flby2 mem_invalid) (= flby3 0) (= flby4 0) (= flby5 0)) 
    :trans (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (=> garde1' (= ite' (- invalid 1))) (=> (not garde1') (= ite' invalid))) (and (=> garde2' (= ite2' (- invalid 1))) (=> (not garde2') (= ite2' invalid)))) (and (=> garde3' (= ite3' (- invalid 1))) (=> (not garde3') (= ite3' invalid)))) (and (=> garde6' (= ite4' (- invalid 1))) (=> (not garde6') (= ite4' invalid)))) (and (=> garde7' (= ite5' (- invalid 1))) (=> (not garde7') (= ite5' invalid)))) (and (=> garde8' (= ite6' (- invalid 1))) (=> (not garde8') (= ite6' invalid)))) (and (=> e8' (= ite7' ite6')) (=> (not e8') (= ite7' invalid)))) (and (=> garde2' (= ite13' (- dirty 1))) (=> (not garde2') (= ite13' dirty)))) (and (=> garde4' (= ite14' (+ dirty 1))) (=> (not garde4') (= ite14' dirty)))) (and (=> garde6' (= ite15' 1)) (=> (not garde6') (= ite15' dirty)))) (and (=> garde7' (= ite16' (- dirty 1))) (=> (not garde7') (= ite16' dirty)))) (and (=> e7' (= ite17' ite16')) (=> (not e7') (= ite17' dirty)))) (and (=> garde1' (= ite21' (+ exclusive 1))) (=> (not garde1') (= ite21' exclusive)))) (and (=> garde3' (= ite22' 0)) (=> (not garde3') (= ite22' exclusive)))) (and (=> garde4' (= ite23' (- exclusive 1))) (=> (not garde4') (= ite23' exclusive)))) (and (=> garde5' (= ite24' (+ exclusive 1))) (=> (not garde5') (= ite24' exclusive)))) (and (=> garde8' (= ite25' 0)) (=> (not garde8') (= ite25' exclusive)))) (and (=> e8' (= ite26' ite25')) (=> (not e8') (= ite26' exclusive)))) (and (=> garde2' (= ite31' (+ shared 2))) (=> (not garde2') (= ite31' shared)))) (and (=> garde3' (= ite32' (+ (+ (+ (- shared 1) exclusive) 1) 1))) (=> (not garde3') (= ite32' shared)))) (and (=> garde5' (= ite33' 0)) (=> (not garde5') (= ite33' shared)))) (and (=> garde7' (= ite34' (+ shared 2))) (=> (not garde7') (= ite34' shared)))) (and (=> garde8' (= ite35' (+ (+ shared exclusive) 1))) (=> (not garde8') (= ite35' shared)))) (and (=> e8' (= ite36' ite35')) (=> (not e8') (= ite36' shared)))) (= garde1' (and (and (and (>= invalid 1) (= dirty 0)) (= shared 0)) (= exclusive 0))) (= garde2' (and (>= invalid 1) (>= dirty 1))) (= garde3' (and (>= invalid 1) (>= (+ shared exclusive) 1))) (= garde4' (>= exclusive 1)) (= garde5' (= shared 1)) (= garde6' (and (and (and (>= invalid 1) (= dirty 0)) (= shared 0)) (= exclusive 0))) (= garde7' (and (>= invalid 1) (>= dirty 1))) (= garde8' (and (>= invalid 1) (>= (+ shared exclusive) 1))) (= flby' mem_invalid) (= flby2' ite12') (= flby3' ite20') (= flby4' ite30') (= flby5' ite40')) 
    :inv (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (and (=> e7 (= ite8 ite5)) (=> (not e7) (= ite8 ite7))) (and (=> e6 (= ite9 ite4)) (=> (not e6) (= ite9 ite8)))) (and (=> e3 (= ite10 ite3)) (=> (not e3) (= ite10 ite9)))) (and (=> e2 (= ite11 ite2)) (=> (not e2) (= ite11 ite10)))) (and (=> e1 (= ite12 ite)) (=> (not e1) (= ite12 ite11)))) (and (=> e6 (= ite18 ite15)) (=> (not e6) (= ite18 ite17)))) (and (=> e4 (= ite19 ite14)) (=> (not e4) (= ite19 ite18)))) (and (=> e2 (= ite20 ite13)) (=> (not e2) (= ite20 ite19)))) (and (=> e5 (= ite27 ite24)) (=> (not e5) (= ite27 ite26)))) (and (=> e4 (= ite28 ite23)) (=> (not e4) (= ite28 ite27)))) (and (=> e3 (= ite29 ite22)) (=> (not e3) (= ite29 ite28)))) (and (=> e1 (= ite30 ite21)) (=> (not e1) (= ite30 ite29)))) (and (=> e7 (= ite37 ite34)) (=> (not e7) (= ite37 ite36)))) (and (=> e5 (= ite38 ite33)) (=> (not e5) (= ite38 ite37)))) (and (=> e3 (= ite39 ite32)) (=> (not e3) (= ite39 ite38)))) (and (=> e2 (= ite40 ite31)) (=> (not e2) (= ite40 ite39)))) (= invalid flby2) (= dirty flby3) (= exclusive flby4) (= shared flby5) (= mem_invalid flby)) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (and _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system main 
    :input () 
    :output ((exclusive Int) (shared Int) (_R4_ Bool) (_A1_ Bool) (_A2_ Bool) (_A3_ Bool) (param_i_invalid Int) (procs Int) (env Bool) (param_e1 Bool) (param_e2 Bool) (param_e3 Bool) (param_e4 Bool) (param_e5 Bool) (param_e6 Bool) (param_e7 Bool) (param_e8 Bool) (_OK_ Bool) (invalid Int) (dirty Int)) 

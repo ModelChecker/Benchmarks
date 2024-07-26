@@ -1,11 +1,4 @@
 (set-logic QF_LIA)
-(define-system Sofar 
-   :input ((_X_ Bool)) 
-   :output ((Sofar Bool) (flby Bool)) 
-   :local () 
-   :init (= flby _X_) 
-   :trans (= flby' (or _X_' Sofar)) 
-   :inv (= Sofar flby) )
 (define-system excludes4 
    :input ((_X1_ Bool) (_X2_ Bool) (_X3_ Bool) (_X4_ Bool)) 
    :output ((excludes Bool)) 
@@ -13,6 +6,13 @@
    :init true 
    :trans true 
    :inv (= excludes (not (or (or (or (or (or (and _X1_ _X2_) (and _X1_ _X3_)) (and _X1_ _X4_)) (and _X2_ _X3_)) (and _X2_ _X4_)) (and _X3_ _X4_)))) )
+(define-system Sofar 
+   :input ((_X_ Bool)) 
+   :output ((Sofar Bool) (flby Bool)) 
+   :local () 
+   :init (= flby _X_) 
+   :trans (= flby' (or _X_' Sofar)) 
+   :inv (= Sofar flby) )
 (define-system mesi 
    :input ((etat_me1 Bool) (etat_me2 Bool) (etat_me3 Bool) (etat_me4 Bool)) 
    :output ((modified_me Int) (exclusive_me Int) (shared_me Int) (invalid_me Int) (garde_me1 Bool) (garde_me2 Bool) (garde_me3 Bool) (garde_me4 Bool) (ite Int) (ite2 Int) (ite3 Int) (ite4 Int) (ite5 Int) (ite6 Int) (ite7 Int) (ite8 Int) (flby Int) (ite9 Int) (ite10 Int) (ite11 Int) (ite12 Int) (ite13 Int) (ite14 Int) (ite15 Int) (ite16 Int) (flby2 Int) (ite17 Int) (ite18 Int) (ite19 Int) (ite20 Int) (ite21 Int) (ite22 Int) (ite23 Int) (ite24 Int) (flby3 Int) (ite25 Int) (ite26 Int) (ite27 Int) (ite28 Int) (ite29 Int) (ite30 Int) (ite31 Int) (ite32 Int) (flby4 Int)) 
