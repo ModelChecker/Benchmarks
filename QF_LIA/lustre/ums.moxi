@@ -1,3 +1,4 @@
+(set-logic QF_LIA)
 (define-system implies 
    :input ((_A_ Bool) (_B_ Bool)) 
    :output ((AimpliesB Bool)) 

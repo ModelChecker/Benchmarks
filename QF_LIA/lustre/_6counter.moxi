@@ -1,3 +1,4 @@
+(set-logic QF_LIA)
 (define-system main 
    :input () 
    :output ((_OK_ Bool) (a Bool) (b Bool) (c Bool) (flby Bool) (flby2 Bool) (flby3 Bool) (flby4 Bool) (flby5 Bool) (param_x Bool)) 
