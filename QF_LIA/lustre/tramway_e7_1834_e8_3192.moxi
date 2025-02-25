@@ -1,3 +1,4 @@
+(set-logic QF_LIA)
 (define-system edge 
    :input ((_X_ Bool)) 
    :output ((edge Bool) (flby Bool)) 
