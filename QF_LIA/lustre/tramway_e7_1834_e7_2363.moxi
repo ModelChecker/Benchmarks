@@ -29,11 +29,11 @@
    :subsys (call_edge6 (edge call_edge6._X_ call_edge6.edge call_edge6.flby)))
 (define-system switch 
    :input ((_init_ Bool) (on Bool) (off Bool)) 
-   :output ((value Bool) (flby Bool) (ite Bool) (ite2 Bool)) 
+   :output ((value Bool) (flby Bool) (_ite Bool) (ite2 Bool)) 
    :local () 
    :init (= flby _init_) 
    :trans (= flby' value) 
-   :inv (and (and (and (=> off (= ite false)) (=> (not off) (= ite flby))) (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite)))) (= value ite2)) )
+   :inv (and (and (and (=> off (= _ite false)) (=> (not off) (= _ite flby))) (and (=> on (= ite2 true)) (=> (not on) (= ite2 _ite)))) (= value ite2)) )
 (define-system once_from_to 
    :input ((_A_ Bool) (_B_ Bool) (_X_ Bool)) 
    :output ((_OK_ Bool) (between_A_and_X Bool)) 

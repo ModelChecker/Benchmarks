@@ -1,11 +1,11 @@
 (set-logic QF_LIA)
 (define-system switch 
    :input ((_init_ Bool) (on Bool) (off Bool)) 
-   :output ((value Bool) (flby Bool) (ite Bool) (ite2 Bool)) 
+   :output ((value Bool) (flby Bool) (_ite Bool) (ite2 Bool)) 
    :local () 
    :init (= flby _init_) 
    :trans (= flby' value) 
-   :inv (and (and (and (=> off (= ite false)) (=> (not off) (= ite flby))) (and (=> on (= ite2 true)) (=> (not on) (= ite2 ite)))) (= value ite2)) )
+   :inv (and (and (and (=> off (= _ite false)) (=> (not off) (= _ite flby))) (and (=> on (= ite2 true)) (=> (not on) (= ite2 _ite)))) (= value ite2)) )
 (define-system controller 
    :input ((request_door Bool) (warning_start Bool) (in_station Bool) (door_is_open Bool)) 
    :output ((open_door Bool) (close_door Bool) (door_ok Bool) (req_pending Bool)) 
@@ -14,13 +14,6 @@
    :trans true 
    :inv (and (= open_door (and req_pending in_station)) (= close_door (and warning_start door_is_open)) (= door_ok (and (not door_is_open) warning_start)) (= req_pending call_switch.value) (= call_switch._init_ false) (= call_switch.on (and request_door (not warning_start))) (= call_switch.off door_is_open)) 
    :subsys (call_switch (switch call_switch._init_ call_switch.on call_switch.off call_switch.value call_switch.flby call_switch.ite call_switch.ite2)))
-(define-system edge 
-   :input ((_X_ Bool)) 
-   :output ((edge Bool) (flby Bool)) 
-   :local () 
-   :init (= flby false) 
-   :trans (= flby' (or _X_' (not _X_))) 
-   :inv (= edge flby) )
 (define-system jafter 
    :input ((_X_ Bool)) 
    :output ((after Bool) (flby Bool)) 
@@ -28,6 +21,13 @@
    :init (= flby false) 
    :trans (= flby' _X_) 
    :inv (= after flby) )
+(define-system edge 
+   :input ((_X_ Bool)) 
+   :output ((edge Bool) (flby Bool)) 
+   :local () 
+   :init (= flby false) 
+   :trans (= flby' (or _X_' (not _X_))) 
+   :inv (= edge flby) )
 (define-system environment 
    :input ((door_is_open Bool) (open_door Bool) (close_door Bool) (in_station Bool) (door_ok Bool) (warning_start Bool)) 
    :output ((env_always_ok Bool) (env_ok Bool) (door_doesnt_close_if_not_asked Bool) (door_doesnt_open_if_not_asked Bool) (tramway_doesnt_start_if_not_door_ok Bool) (door_initially_closed Bool) (initially_not_in_station Bool) (warning_start_and_in_station_go_down_simultaneously Bool) (warning_start_only_in_station Bool) (warning_start_cant_become_true_when_door_is_opening Bool) (flby Bool) (flby2 Bool) (flby3 Bool)) 

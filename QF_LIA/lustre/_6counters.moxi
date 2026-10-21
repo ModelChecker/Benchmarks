@@ -8,10 +8,10 @@
    :inv (and (= out (and a c)) (= a flby) (= b flby2) (= c flby3)) )
 (define-system int6I 
    :input ((x Bool)) 
-   :output ((out Bool) (time Int) (ite Int) (flby Int)) 
+   :output ((out Bool) (time Int) (_ite Int) (flby Int)) 
    :local () 
    :init (= flby 0) 
-   :trans (and (and (=> (= time 5) (= ite' 1)) (=> (not (= time 5)) (= ite' (+ time 1)))) (= flby' ite')) 
+   :trans (and (and (=> (= time 5) (= _ite' 1)) (=> (not (= time 5)) (= _ite' (+ time 1)))) (= flby' _ite')) 
    :inv (and (= out (= time 5)) (= time flby)) )
 (define-system main 
    :input () 

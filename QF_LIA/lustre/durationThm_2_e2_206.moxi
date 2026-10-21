@@ -8,10 +8,10 @@
    :inv (= Sofar flby) )
 (define-system Age 
    :input ((p Bool)) 
-   :output ((age_of_p Int) (ite Int) (flby Int)) 
+   :output ((age_of_p Int) (_ite Int) (flby Int)) 
    :local () 
    :init (= flby 0) 
-   :trans (and (and (=> p (= ite' (+ (- age_of_p 1) 1))) (=> (not p) (= ite' 0))) (= flby' ite')) 
+   :trans (and (and (=> p (= _ite' (+ (- age_of_p 1) 1))) (=> (not p) (= _ite' 0))) (= flby' _ite')) 
    :inv (= age_of_p flby) )
 (define-system main 
    :input () 
